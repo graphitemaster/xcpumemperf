@@ -23,16 +23,18 @@ test escapes Ryzens typical dual page walker hardware and cache utag
 mechanism.
 
 Software Optimization Guide for AMD Family 17h Processors section 2.7.3
-states "Linear aliasing occurs when two different linear addresses are
-mapped to the same physical address.  This can cause performance penalties
-for loads and stores to the aliased cachelines.  A load to an address
-that is valid in the L1 DC but under a different linear alias will see
-an L1 DC miss, which requires an L2 cache request to be made.  The
-latency will generally be no larger than that of an L2 cache hit.
-However, if multiple aliased loads or stores are in-flight simultaneously,
-they each may experience L1 DC misses as they update the utag with a
-particular linear address and remove another linear address from being
-able to access the cacheline."
+states:
+
+> Linear aliasing occurs when two different linear addresses are
+> mapped to the same physical address.  This can cause performance penalties
+> for loads and stores to the aliased cachelines.  A load to an address
+> that is valid in the L1 DC but under a different linear alias will see
+> an L1 DC miss, which requires an L2 cache request to be made.  The
+> latency will generally be no larger than that of an L2 cache hit.
+> However, if multiple aliased loads or stores are in-flight simultaneously,
+> they each may experience L1 DC misses as they update the utag with a
+> particular linear address and remove another linear address from being
+> able to access the cacheline.
 
 In particular, this hits the latter case, a full L1 DC miss which then
 becomes a full 8-way lookup. In particular, if the physical tag is
@@ -40,10 +42,10 @@ wrong, then it cannot look in the set since the set is virtual.
 
 In general, CPUs cannot afford to translate linear addresses to physical
 ones, then look it up in L1, so they optimistically lookup by virtual address
-instead and make sure later (after thr address translation is done
+instead and make sure later (after the address translation is done
 concurrently) that the physical tag in the cache matches the TLB lookup.
 When you create an alias (two or more linear addresses which map to the
-same physical page(s), you cause this mismatch to happen.
+same physical page(s), you cause this mismatch to happen.)
 
 When these mismatches occur the CPU has to do a full page walk, and this
 is where Ryzen's dual page walk hardware causes a pathological
@@ -74,17 +76,17 @@ write end only gets write permissions. This ensures separate page table
 entries.
 
 This was written with standard UNIX in mind so it uses a socket to
-hand over the shared memory file descriptor through the use of sendmsg
+hand over the shared memory file descriptor through the use of `sendmsg`
 opposed to just sending the file descriptor over directly which would
 work okay in Linux but no where else.
 
 The approach here uses a block of shared memory mapped in a read process
 and a write process constructed by this process. This memory is touched
 completely from beginning to end with simple load/store in each process.
-The size of the block of memory can be configured with the TOUCH macro.
+The size of the block of memory can be configured with the `MEMORY` macro.
 
 The entire process is done multiple times as to reduce scheduling noise
-and thread construction cost, this is configured with the TRIALS macro.
+and thread construction cost, this is configured with the `TRIALS` macro.
 The time is averaged at the end to provide a stablized result. Note:
 all time is measured in wall clock time and not CPU time as we also
 want to consider the cost of blocking operations like swap
