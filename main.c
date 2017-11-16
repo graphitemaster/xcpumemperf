@@ -206,9 +206,9 @@ int main(int argc, char **argv)
 	}
 	/* No longer need the name */
 	if (hugepage_path[0]) {
-		shm_unlink(SHMNAME);
-	} else {
 		unlink(hugepage_path);
+	} else {
+		shm_unlink(SHMNAME);
 	}
 	if (ftruncate(fd, memory) < 0) {
 		fprintf(stderr, "failed to truncate shared memory\n");
