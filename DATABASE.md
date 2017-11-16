@@ -128,3 +128,73 @@ thread pair averages:
 total average: (wr 3.392124 sec, rd 3.191888 sec)
 benched 64.00 GiB worth of memory (318.13 MiB/s) in 205.969100 secs total
 ```
+
+### 56 Thread Configurations
+
+#### Xeon E5-2683
+```
+discovered Intel(R) Xeon(R) CPU E5-2683 v3 @ 2.00GHz: 56 logical CPU(s), 28 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 56 thread pair(s) or 112 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 16] [15, 17] [16, 18] [17, 19] [18, 20] [19, 21] [20, 22] [21, 23] [22, 24] [23, 25] [24, 26] [25, 27] [26, 28] [27, 29] [28, 30] [29, 31] [30, 32] [31, 33] [32, 34] [33, 35] [34, 36] [35, 37] [36, 38] [37, 39] [38, 40] [39, 41] [40, 42] [41, 43] [42, 44] [43, 45] [44, 46] [45, 47] [46, 48] [47, 49] [48, 50] [49, 51] [50, 52] [51, 53] [52, 54] [53, 55] [54, 0] [55, 1]
+trial 32 of 32 [%100.00] (wr 3.356061 sec, rd 3.292895 sec)
+thread pair averages:
+  1 (wr 6.551104 sec, rd 6.464674 sec)
+  2 (wr 6.386525 sec, rd 6.311538 sec)
+  3 (wr 6.235609 sec, rd 6.163323 sec)
+  4 (wr 6.087573 sec, rd 6.012213 sec)
+  5 (wr 5.937825 sec, rd 5.865735 sec)
+  6 (wr 5.793511 sec, rd 5.720618 sec)
+  7 (wr 5.647209 sec, rd 5.571719 sec)
+  8 (wr 5.502309 sec, rd 5.428147 sec)
+  9 (wr 5.359774 sec, rd 5.286072 sec)
+  10 (wr 5.215148 sec, rd 5.143750 sec)
+  11 (wr 5.072181 sec, rd 4.999133 sec)
+  12 (wr 4.927767 sec, rd 4.855642 sec)
+  13 (wr 4.782368 sec, rd 4.715937 sec)
+  14 (wr 4.643525 sec, rd 4.569659 sec)
+  15 (wr 4.497669 sec, rd 4.428248 sec)
+  16 (wr 4.360314 sec, rd 4.288489 sec)
+  17 (wr 4.217381 sec, rd 4.145677 sec)
+  18 (wr 4.073193 sec, rd 4.001037 sec)
+  19 (wr 3.926830 sec, rd 3.858657 sec)
+  20 (wr 3.787214 sec, rd 3.715755 sec)
+  21 (wr 3.644725 sec, rd 3.576374 sec)
+  22 (wr 3.511026 sec, rd 3.440647 sec)
+  23 (wr 3.374022 sec, rd 3.306523 sec)
+  24 (wr 3.240768 sec, rd 3.178481 sec)
+  25 (wr 3.118372 sec, rd 3.054122 sec)
+  26 (wr 2.992118 sec, rd 2.935895 sec)
+  27 (wr 2.876537 sec, rd 2.817127 sec)
+  28 (wr 2.757947 sec, rd 2.694673 sec)
+  29 (wr 2.629678 sec, rd 2.565643 sec)
+  30 (wr 2.501914 sec, rd 2.447638 sec)
+  31 (wr 2.382387 sec, rd 2.325503 sec)
+  32 (wr 2.269683 sec, rd 2.219034 sec)
+  33 (wr 2.166883 sec, rd 2.119535 sec)
+  34 (wr 2.074433 sec, rd 2.025925 sec)
+  35 (wr 1.977334 sec, rd 1.936154 sec)
+  36 (wr 1.896815 sec, rd 1.853737 sec)
+  37 (wr 1.816589 sec, rd 1.778170 sec)
+  38 (wr 1.743602 sec, rd 1.707488 sec)
+  39 (wr 1.675639 sec, rd 1.639335 sec)
+  40 (wr 1.600802 sec, rd 1.562048 sec)
+  41 (wr 1.527216 sec, rd 1.490129 sec)
+  42 (wr 1.453425 sec, rd 1.416182 sec)
+  43 (wr 1.377558 sec, rd 1.338594 sec)
+  44 (wr 1.296273 sec, rd 1.251356 sec)
+  45 (wr 1.205590 sec, rd 1.162892 sec)
+  46 (wr 1.115205 sec, rd 1.071499 sec)
+  47 (wr 1.017554 sec, rd 0.965636 sec)
+  48 (wr 0.918009 sec, rd 0.869780 sec)
+  49 (wr 0.819553 sec, rd 0.767531 sec)
+  50 (wr 0.717685 sec, rd 0.671209 sec)
+  51 (wr 0.620721 sec, rd 0.569476 sec)
+  52 (wr 0.518073 sec, rd 0.465705 sec)
+  53 (wr 0.415801 sec, rd 0.363586 sec)
+  54 (wr 0.311502 sec, rd 0.260475 sec)
+  55 (wr 0.208615 sec, rd 0.157547 sec)
+  56 (wr 0.105606 sec, rd 0.052532 sec)
+total average: (wr 2.980084 sec, rd 2.921504 sec)
+benched 224.00 GiB worth of memory (1.06 GiB/s) in 209.909727 secs total
+```

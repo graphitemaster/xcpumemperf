@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 	int populate = 0;
 	size_t memory = MEMORY;
 	int result = EXIT_FAILURE;
-	char hugepage_path[PATH_MAX];
+	char hugepage_path[PATH_MAX] = { 0 };
 
 	int arg = 1;
 	for (; arg != argc; ++arg) {
@@ -205,7 +205,7 @@ int main(int argc, char **argv)
 	 * core as the read or write thread. We want each thread to get its
 	 * own mapping for it.
 	 */
-	int fd;
+	int fd = -1;
 	if (hugepage_path[0]) {
 		fd = open(hugepage_path, O_CREAT | O_EXCL | O_RDWR, S_IRUSR | S_IWUSR);
 	} else {
