@@ -194,11 +194,13 @@ int main(int argc, char **argv)
 		int complete; /* Indicates if task is completed */
 	};
 
-	struct task *wr = calloc(sizeof *wr, threads);
+	struct task *wr = NULL;
+	struct task *rd = NULL;
+	wr = calloc(sizeof *wr, threads);
 	if (!wr) {
 		goto oom;
 	}
-	struct task *rd = calloc(sizeof *rd, threads);
+	rd = calloc(sizeof *rd, threads);
 	if (!rd) {
 		goto oom;
 	}
