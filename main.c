@@ -19,6 +19,7 @@
 /* The benchmark memory to operate on (Default) */
 #define MEMORY (size_t)(128ull * 1024ull * 1024ull) // 128MiB
 
+#define SHMNAME "/xcpumemperf"
 #define SHAREFILE "/tmp/xcpumemperf.result"
 
 static FILE* share;
@@ -27,10 +28,10 @@ static void usage(const char *app, FILE *fp) {
 	fprintf(fp, "usage: %s [options]\n", app);
 	fprintf(fp, "options:\n"
 	            "  -h, --help            print this help message\n"
-	            "  -T, --threads=COUNT   the amount of threads to use per trial run\n"
+	            "  -T, --threads=COUNT   the amount of thread pairs to use per trial run\n"
 	            "  -m, --memory=MB       the amount of memory to work on in MiB\n"
 	            "  -t, --trials=COUNT    the amount of trials to run for benchmark\n"
-	            "  -F, --force_same_cpu  forces read and write pairs to end up on the same CPU\n"
+	            "  -F, --force-same-cpu  forces read and write pairs to end up on the same CPU\n"
 	            "  -s, --share           share results by posting output to sprunge\n"
 	            "  -p, --populate        populate shared memory mapping before benching\n"
 	            "  -H, --hugepage=DIR    create a huge page using this directory (must be a hugepages mountpoint)\n");
@@ -155,7 +156,7 @@ int main(int argc, char **argv)
 				return EXIT_FAILURE;
 			}
 			if (argarg[0]) {
-				(void)snprintf(hugepage_path, sizeof hugepage_path, "%s/xcpumemperf.%d", argarg, getpid());
+				(void)snprintf(hugepage_path, sizeof hugepage_path, "%s" SHMNAME ".%d", argarg, getpid());
 			} else {
 				hugepage_path[0] = 0;
 			}
@@ -174,13 +175,13 @@ int main(int argc, char **argv)
 
 	/* Have as many threads as there are physical cores by default */
 	if (threads == -1) {
-		threads = info.physical;
+		threads = info.logical;
 	}
 
 	char memfmt[1024];
 	out("discovered %s: %d logical CPU(s), %d physical, %d thread(s) per core\n", info.name, info.logical, info.physical, info.threads);
 	out("measuring memory perf across CPU(s) with explicit memory mappings\n");
-	out("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memfmt, sizeof memfmt, memory), threads);
+	out("running %d trial(s) on a space of %s with %d thread pair(s) or %d thread(s) total per trial run\n", trials, util_humansize(memfmt, sizeof memfmt, memory), threads, threads*2);
 	if (force_same_cpu) {
 		out("forcing read and writes on same physical CPU(s)\n");
 	}
@@ -197,7 +198,7 @@ int main(int argc, char **argv)
 	if (hugepage_path[0]) {
 		fd = open(hugepage_path, O_CREAT | O_EXCL | O_RDWR, S_IRUSR | S_IWUSR);
 	} else {
-		fd = shm_open("/xcpumemperf", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
+		fd = shm_open(SHMNAME, O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
 	}
 	if (fd < 0) {
 		fprintf(stderr, "failed to create shared memory\n");
@@ -205,7 +206,7 @@ int main(int argc, char **argv)
 	}
 	/* No longer need the name */
 	if (hugepage_path[0]) {
-		shm_unlink("/xcpumemperf");
+		shm_unlink(SHMNAME);
 	} else {
 		unlink(hugepage_path);
 	}
@@ -237,6 +238,12 @@ int main(int argc, char **argv)
 		int complete; /* Indicates if task is completed */
 	};
 
+	struct pair {
+		int wr;
+		int rd;
+	};
+
+	struct pair *pairs = NULL;
 	struct task *wr = NULL;
 	struct task *rd = NULL;
 	wr = calloc(sizeof *wr, threads);
@@ -249,6 +256,40 @@ int main(int argc, char **argv)
 		fprintf(stderr, "Out of memory");
 		goto cleanup;
 	}
+	pairs = calloc(sizeof *pairs, threads);
+	if (!pairs) {
+		fprintf(stderr, "Out of memory");
+		goto cleanup;
+	}
+
+	/* Output thread pairs */
+	out("thread cpu pairs: ");
+	for (int thread = 0; thread < threads; thread++)
+	{
+		/*
+		 * Note we assume that the current core index + how ever many threads per core - 1 will force the
+		 * reading thread onto another CPU. Or put another way, [0, n] where n is the # of threads per
+		 * core we assume to be the same CPU. This is true for almost all binned configurations but may
+		 * be different in NUMA systems.
+		 */
+		int wrcpu = thread % info.logical;
+		int rdcpu = -1;
+		if (force_same_cpu) {
+			rdcpu = wrcpu;
+		} else {
+			int offset = wrcpu + info.threads;
+			if (offset >= info.logical) {
+				rdcpu = offset % info.logical;
+			} else {
+				rdcpu = offset;
+			}
+		}
+
+		out("[%d, %d] ", wrcpu, rdcpu);
+		pairs[thread].wr = wrcpu;
+		pairs[thread].rd = rdcpu;
+	}
+	out("\n");
 
 	double wrtime = 0.0;
 	double rdtime = 0.0;
@@ -260,19 +301,9 @@ int main(int argc, char **argv)
 		/* Execute benchmarks on all threads for this trial */
 		for (int thread = 0; thread < threads; thread++)
 		{
-			int wrcpu = thread % info.logical;
-
-			/*
-			 * Note we assume that the current core index + how ever many threads per core - 1 will force the
-			 * reading thread onto another CPU. Or put another way, [0, n] where n is the # of threads per
-			 * core we assume to be the same CPU. This is true for almost all binned configurations but may
-			 * be different in NUMA systems.
-			 */
-			int rdcpu = force_same_cpu ? wrcpu : (thread + info.threads - 1) % info.logical;
-
 			/* Bring up write thread */
 			wr[thread].beg = util_gettime();
-			if (thread_init(&wr[thread].thread, wrcpu, WR, memory, &m) < 0) {
+			if (thread_init(&wr[thread].thread, pairs[thread].wr, WR, memory, &m) < 0) {
 				fprintf(stderr, "failed to create wr thread\n");
 				return EXIT_FAILURE;
 			}
@@ -280,11 +311,17 @@ int main(int argc, char **argv)
 
 			/* Bring up read thread */
 			rd[thread].beg = util_gettime();
-			if (thread_init(&rd[thread].thread, rdcpu, RD, memory, &m) < 0) {
+			if (thread_init(&rd[thread].thread, pairs[thread].rd, RD, memory, &m) < 0) {
 				fprintf(stderr, "failed to create rd thread\n");
 				return EXIT_FAILURE;
 			}
 			thread_wait(&rd[thread].thread, fd);
+		}
+
+		/* Begin benchmarking on those threads */
+		for (int thread = 0; thread < threads; thread++) {
+			thread_benchmark(&wr[thread].thread);
+			thread_benchmark(&rd[thread].thread);
 		}
 
 		/* Wait for threads to complete in this trial */
@@ -345,7 +382,7 @@ int main(int argc, char **argv)
 	double tend = util_gettime();
 	printf("\n");
 
-	out("thread averages:\n");
+	out("thread pair averages:\n");
 	for (int thread = 0; thread < threads; thread++) {
 		int strides = threads*trials;
 		out("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/strides, rd[thread].avg/strides);
@@ -373,6 +410,7 @@ int main(int argc, char **argv)
 cleanup:
 	free(wr);
 	free(rd);
+	free(pairs);
 
 	munmap(touch, memory);
 	msg_destroy(&m);

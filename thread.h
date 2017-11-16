@@ -20,8 +20,11 @@ struct thread {
 	/* Thread handle */
 	pthread_t thread;
 
-	/* Binary semaphore that is posted once the thread is started */
-	struct bsem bsem;
+	/*
+	 * Binary semaphores, one is posted when the thread is started
+	 * the other is posted to begin the benchmarking in the thread.
+	 */
+	struct bsem bsem[2];
 
 	/* Message channel to communicate on */
 	struct msg* msg;
@@ -35,6 +38,9 @@ int thread_init(struct thread *thread, int cpu, enum thread_type type, size_t me
 
 /* Wait for the thread to get shared memory mapping */
 int thread_wait(struct thread *thread, int fd);
+
+/* Start the benchmarking on the thread */
+int thread_benchmark(struct thread *thread);
 
 /* Wait for the thread to complete */
 int thread_join(struct thread *thread);

@@ -14,6 +14,7 @@
  * to the largest priority to reduce scheduling noise.
  */
 static int setcpuandprio(const char* which, int n) {
+	/* Pin the thread under the specified CPU */
 	cpu_set_t set;
 	CPU_ZERO(&set);
 	CPU_SET(n, &set);
@@ -21,13 +22,8 @@ static int setcpuandprio(const char* which, int n) {
 		fprintf(stderr, "failed to set thread '%s' to cpu '%d'\n", which, n);
 		return -1;
 	}
-	struct sched_param p = {
-		.sched_priority = 99 /* Max priority */
-	};
-	if (pthread_setschedparam(pthread_self(), SCHED_FIFO, &p) < 0) {
-		fprintf(stderr, "failed to set thread '%s' priority", which);
-		return -1;
-	}
+	/* Force thread to reschedule */
+	sched_yield();
 	return 0;
 }
 
@@ -71,8 +67,10 @@ static void *proc(void *opaque) {
 	}
 
 	/* Inform the main process that this thread is ready */
-	bsem_post(&thread->bsem);
+	bsem_post(&thread->bsem[0]);
 
+	/* Wait to begin timing */
+	bsem_wait(&thread->bsem[1]);
 	if (is_rd) {
 		volatile unsigned char __attribute__ ((unused)) sink = 0;
 		for (size_t i = 0; i < thread->memory; i++) {
@@ -98,7 +96,7 @@ error:
 	}
 
 	/* Don't dead lock during initialization if an error was encountered */
-	bsem_post(&thread->bsem);
+	bsem_post(&thread->bsem[0]);
 
 	return NULL;
 }
@@ -108,16 +106,24 @@ int thread_init(struct thread *thread, int cpu, enum thread_type type, size_t me
 	thread->msg = msg;
 	thread->memory = memory;
 	thread->cpu = cpu;
-	/* Initialize binary semaphore used to know when the thread has started */
-	if (bsem_init(&thread->bsem) < 0) {
-		return -1;
+	/* Initialize binary semaphores used for controlling when things happen*/
+	if (bsem_init(&thread->bsem[0]) < 0) {
+		goto error_bsem0;
+	}
+	if (bsem_init(&thread->bsem[1]) < 0) {
+		goto error_bsem1;
 	}
 	/* Create the thread and execute it */
 	if (pthread_create(&thread->thread, NULL, proc, thread) < 0) {
-		bsem_destroy(&thread->bsem);
-		return -1;
+		goto error_bsem1;
 	}
 	return 0;
+
+error_bsem1:
+	bsem_destroy(&thread->bsem[1]);
+error_bsem0:
+	bsem_destroy(&thread->bsem[0]);
+	return -1;
 }
 
 int thread_wait(struct thread *thread, int fd) {
@@ -126,10 +132,15 @@ int thread_wait(struct thread *thread, int fd) {
 		return -1;
 	}
 	/* Wait for the thread to get shared memory and start */
-	if (bsem_wait(&thread->bsem) < 0) {
+	if (bsem_wait(&thread->bsem[0]) < 0) {
 		return -1;
 	}
 	return 0;
+}
+
+int thread_benchmark(struct thread* thread) {
+	/* Wake up the thread to begin benchmarking */
+	return bsem_post(&thread->bsem[1]);
 }
 
 int thread_join(struct thread *thread) {
@@ -137,5 +148,6 @@ int thread_join(struct thread *thread) {
 }
 
 void thread_destroy(struct thread *thread) {
-	bsem_destroy(&thread->bsem);
+	bsem_destroy(&thread->bsem[0]);
+	bsem_destroy(&thread->bsem[1]);
 }
