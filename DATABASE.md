@@ -99,6 +99,26 @@ total average: (wr 1.881468 sec, rd 1.655813 sec)
 benched 32.00 GiB worth of memory (295.20 MiB/s) in 110.436308 secs total
 ```
 
+#### i7-6700K
+```
+discovered Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
+trial 32 of 32 [%100.00] (wr 2.343671 sec, rd 2.081862 sec)
+thread pair averages:
+  1 (wr 2.885558 sec, rd 2.671620 sec)
+  2 (wr 2.472182 sec, rd 2.277332 sec)
+  3 (wr 2.100868 sec, rd 1.912702 sec)
+  4 (wr 1.776112 sec, rd 1.621613 sec)
+  5 (wr 1.424414 sec, rd 1.272395 sec)
+  6 (wr 1.101160 sec, rd 0.911659 sec)
+  7 (wr 0.738997 sec, rd 0.553157 sec)
+  8 (wr 0.345031 sec, rd 0.164712 sec)
+total average: (wr 1.605540 sec, rd 1.423149 sec)
+benched 32.00 GiB worth of memory (352.34 MiB/s) in 92.624301 secs total
+```
+
 #### i7-7700K
 ```
 discovered Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
