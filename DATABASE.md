@@ -1,5 +1,20 @@
 # The following are timings from various CPUs with default configurations
 
+### i7-4710HQ
+```
+discovered Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 4 thread(s) per trial run
+trial 32 of 32 [%100.00] (wr 0.045994 sec, rd 0.039005 sec)
+thread averages:
+  1 (wr 0.212761 sec, rd 0.190548 sec)
+  2 (wr 0.153349 sec, rd 0.124817 sec)
+  3 (wr 0.104419 sec, rd 0.077651 sec)
+  4 (wr 0.046590 sec, rd 0.019056 sec)
+total average: (wr 2.068476 sec, rd 1.648289 sec)
+benched 16.00 GiB worth of memory (585.14 MiB/s) in 27.234011 secs total
+```
+
 ### i7-4790K
 ```
 discovered Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
