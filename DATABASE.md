@@ -1,16 +1,47 @@
 # Comparison of various CPU(s)
 
-## How to compare these results
+## How to read these results
 
-You cannot make a comparison between runs with different amounts of threads
-used per trial run. At least not directly. Remember that two threads are
-spawned per thread trial run (a read thread and a write thread) so when
-you see `N thread(s) per trial run` there is actually `N*2` threads being
-run in total for that one trial. More threads will take longer even if
-the threads are all scheduled at the same time, the memory has to be
-touched more which in turn makes it slower. In general, if the configuration
-has more physical cores it will be slower than say a really old system
-with only a few.
+The first line of the output is the detected CPU and it's topology, in
+particular the amount of logical threads it has, followed by the amount
+of physical cores it has and if a core supports multiple threads (also
+known as SMT (Simultanerous multithreading))
+
+The line containing trials tells you how many times the test is being
+done, more trials results in more stable results to reduce scheduling
+noise and overhead of thread construction and other sources of noise.
+The space refers to the memory pool which will be mapped twice for
+each thread pair (read and write threads in a pair and each get their
+own virtual mapping for.) This space is continuously touched by both
+processes while the system is under load to get an idea of cross CPU
+memory performance. The thread pair is how many pairs of threads (it's
+a pair because there is a thread for read and a thread for write) are
+to be used in the trial. The final count is just the amount of actual
+threads will be used in total for the run (it's always two times the
+amount of thread pairs.)
+
+The next line shows you how threads are allocated for the read and
+write pairs, each `[]` is a pair and the first number in a pair is the
+logical CPU which will be used for reading while the second number is
+the logical CPU which will be used for writing. These are staggered
+because we want reads and writes for a mapping to happen across CPUs.
+This staggering is controlled by the amount of threads per core. You
+can disable staggering with -F or --force-same-cpu.
+
+The rest of the output is a list of running average seconds on each
+thread pair that carried out the trials. This output serves to show how
+the top most pairs tend to be the slowest while the bottom most ones are
+faster, which proves that memory bandwidth scales with the thread count.
+If you see values at the bottom of the list having averages higer than
+the top then you've hit a pathological case where more threads makes
+memory slower.
+
+The final line is what can be used for comparison, in particular it tells
+you how much memory was touched through the course of all trials for
+all thread pairs and what the memory throughput of that was as well as
+how long it took to benchmark everything. Systems with more threads will
+take longer to benchmark but should have relatively stable memory
+throughput.
 
 ## Configurations
 
