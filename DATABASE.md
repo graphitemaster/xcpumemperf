@@ -99,6 +99,32 @@ total average: (wr 1.881468 sec, rd 1.655813 sec)
 benched 32.00 GiB worth of memory (295.20 MiB/s) in 110.436308 secs total
 ```
 
+### 12 Thread Configurations
+
+#### Xeon E5-2620
+```
+discovered Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz: 12 logical CPU(s), 6 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 12 thread pair(s) or 24 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 0] [11, 1]
+trial 32 of 32 [%100.00] (wr 3.527505 sec, rd 3.287416 sec)
+thread pair averages:
+  1 (wr 4.624307 sec, rd 4.385098 sec)
+  2 (wr 4.148821 sec, rd 3.946107 sec)
+  3 (wr 3.735245 sec, rd 3.557979 sec)
+  4 (wr 3.391874 sec, rd 3.215288 sec)
+  5 (wr 3.049918 sec, rd 2.859165 sec)
+  6 (wr 2.692640 sec, rd 2.509668 sec)
+  7 (wr 2.335570 sec, rd 2.162963 sec)
+  8 (wr 1.969208 sec, rd 1.783596 sec)
+  9 (wr 1.616843 sec, rd 1.427714 sec)
+  10 (wr 1.223167 sec, rd 1.028591 sec)
+  11 (wr 0.831462 sec, rd 0.629659 sec)
+  12 (wr 0.422261 sec, rd 0.206010 sec)
+total average: (wr 2.503443 sec, rd 2.309320 sec)
+benched 48.00 GiB worth of memory (329.87 MiB/s) in 148.249378 secs total
+```
+
 ### 16 Thread Configurations
 
 #### Ryzen 1700
