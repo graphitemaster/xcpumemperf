@@ -33,7 +33,7 @@ static void usage(const char *app, FILE *fp) {
 	            "  -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU\n"
 	            "  -s, --share                    share results by posting output to sprunge\n"
 	            "  -p, --populate=OPTION          populate shared memory mapping before benching\n"
-	            "  -H, --hugepage=DIR             create a huge page using this directory\n");
+	            "  -H, --hugepage=DIR             create a huge page using this directory (must be a hugepages mountpoint)\n");
 }
 
 static int isparam(int argc, char **argv, int *arg, char sh, const char *lng, char **argarg) {

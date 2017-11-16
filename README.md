@@ -18,7 +18,6 @@ installed or present.
 ```
 usage: ./xcpumemperf [options]
 options:
-options:
   -h, --help                     print this help message
   -T, --threads=COUNT            the amount of threads to use per trial run
   -m, --memory=MB                the amount of memory to work on in MiB
@@ -26,6 +25,7 @@ options:
   -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU
   -s, --share                    share results by posting output to sprunge
   -p, --populate=OPTION          populate shared memory mapping before benching
+  -H, --hugepage=DIR             create a huge page using this directory (must be a hugepages mountpoint)
 ```
 
 ## Rationale
