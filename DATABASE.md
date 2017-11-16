@@ -95,3 +95,21 @@ thread averages:
 total average: (wr 0.209296 sec, rd 0.140530 sec)
 benched 8.00 GiB worth of memory (1.60 GiB/s) in 4.344353 secs total
 ```
+```
+discovered Intel(R) Core(TM) i5-2520M CPU @ 2.50GHz: 4 logical CPU(s), 2 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread(s) per trial run
+trial 32 of 32 [%100.00] (wr 6.030699 sec, rd 5.414042 sec)
+thread averages:
+  1 (wr 0.938754 sec, rd 0.875863 sec)
+  2 (wr 0.815823 sec, rd 0.755784 sec)
+  3 (wr 0.693964 sec, rd 0.638865 sec)
+  4 (wr 0.568426 sec, rd 0.501294 sec)
+  5 (wr 0.445333 sec, rd 0.394383 sec)
+  6 (wr 0.338425 sec, rd 0.286157 sec)
+  7 (wr 0.222123 sec, rd 0.166650 sec)
+  8 (wr 0.100967 sec, rd 0.060943 sec)
+total average: (wr 32.990520 sec, rd 29.439510 sec)
+benched 32.00 GiB worth of memory (135.96 MiB/s) in 240.362152 secs total
+
+```
