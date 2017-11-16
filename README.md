@@ -1,6 +1,6 @@
 # Measure cross CPU memory performance
 
-[Some results](result.png)
+![Some results](result.png)
 
 ## Dependencies
 
