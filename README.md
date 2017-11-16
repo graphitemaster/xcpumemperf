@@ -11,7 +11,7 @@ installed or present.
 * uniq (any will do)
 * sed (any will do)
 * cut (any will do)
-* curl (this is optional and is only needed for -s or --share)
+* curl (this is optional and is only needed for `-s` or `--share`)
 
 ## Options
 
