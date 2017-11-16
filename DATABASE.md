@@ -34,6 +34,21 @@ You can contribute your timings here by submitting a pull request. The
 more configurations we have the better it'll be to provide some useful
 graphs in the future.
 
+### 2 Thread Configurations
+
+#### Core i5-2520M (Sandy Bridge-3M) DDR3 2G/4G 1333
+```
+discovered Intel(R) Core(TM) i5-2520M CPU @ 2.50GHz: 4 logical CPU(s), 2 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 2 thread(s) per trial run
+trial 32 of 32 [%100.00] (wr 0.684510 sec, rd 0.446811 sec)
+thread averages:
+  1 (wr 0.067849 sec, rd 0.047412 sec)
+  2 (wr 0.036799 sec, rd 0.022853 sec)
+total average: (wr 0.209296 sec, rd 0.140530 sec)
+benched 8.00 GiB worth of memory (1.60 GiB/s) in 4.344353 secs total
+```
+
 ### 4 Thread Configurations
 
 #### i7-4710HQ
@@ -102,7 +117,7 @@ total average: (wr 13.322433 sec, rd 11.899265 sec)
 benched 32.00 GiB worth of memory (337.81 MiB/s) in 96.391158 secs total
 ```
 
-#### Xeon E5-2650 v1 (2 channels of 4)
+#### Xeon E5-2650 v1 (2x4GiB DDR3 1333 MhZ)
 ```
 discovered Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
