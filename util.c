@@ -79,6 +79,17 @@ int util_getcpuinfo(struct cpuinfo* info) {
 			return -1;
 		}
 	}
+	fclose(fp);
+
+	fp = popen("lscpu | grep 'Model name:' | uniq | sed -e's/  */ /g' | cut -d\" \" -f 3-", "r");
+	if (!fp || !fgets(line, LINE_MAX, fp)) {
+		snprintf(info->name, sizeof info->name, "Unknown");
+	} else {
+		size_t length = strlen(line);
+		if (line[length - 2] == '\r') line[length - 2] = '\0';
+		if (line[length - 1] == '\n') line[length - 1] = '\0';
+		snprintf(info->name, sizeof info->name, "%s", line);
+	}
 
 	/*
 	 * The amount of threads per core is the amount of logical ones divided

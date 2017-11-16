@@ -144,7 +144,7 @@ int main(int argc, char **argv)
 	}
 
 	char memfmt[1024];
-	printf("discovered %d logcial CPU(s), %d physical, %d thread(s) per core\n", info.logical, info.physical, info.threads);
+	printf("discovered %s: %d logcial CPU(s), %d physical, %d thread(s) per core\n", info.name, info.logical, info.physical, info.threads);
 	printf("measuring memory perf across CPU(s) with explicit memory mappings\n");
 	printf("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memfmt, sizeof memfmt, memory), threads);
 	if (force_same_cpu) {

@@ -13,6 +13,7 @@ struct cpuinfo
 	int physical;
 	int threads;
 	int logical;
+	char name[1024];
 };
 
 int util_getcpuinfo(struct cpuinfo *info);
