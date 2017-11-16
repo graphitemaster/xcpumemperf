@@ -47,6 +47,7 @@ thread pair averages:
 total average: (wr 1.714699 sec, rd 1.512127 sec)
 benched 32.00 GiB worth of memory (327.67 MiB/s) in 99.197525 secs total
 ```
+
 #### i7-4710HQ
 ```
 discovered Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
