@@ -74,12 +74,15 @@ static void *proc(void *opaque) {
 	bsem_post(&thread->bsem);
 
 	if (is_rd) {
+		volatile unsigned char __attribute__ ((unused)) sink = 0;
 		for (size_t i = 0; i < thread->memory; i++) {
-			load(touch + i);
+			sink = load(touch + i);
+			__sync_synchronize();
 		}
 	} else {
 		for (size_t i = 0; i < thread->memory; i++) {
-			store(touch + i, i);
+			store(touch + i, i & 0xFF);
+			__sync_synchronize();
 		}
 	}
 
@@ -129,8 +132,8 @@ int thread_wait(struct thread *thread, int fd) {
 	return 0;
 }
 
-void thread_join(struct thread *thread) {
-	pthread_join(thread->thread, NULL);
+int thread_join(struct thread *thread) {
+	return pthread_tryjoin_np(thread->thread, NULL);
 }
 
 void thread_destroy(struct thread *thread) {

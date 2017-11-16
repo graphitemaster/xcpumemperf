@@ -56,7 +56,7 @@ int util_getcpuinfo(struct cpuinfo* info) {
 	info->logical = 0;
 
 	/* There's always at least on physical */
-	int physical = 0;
+	int physical = 1;
 
 	/* Read the output of lscpu */
 	char line[LINE_MAX];
@@ -72,7 +72,7 @@ int util_getcpuinfo(struct cpuinfo* info) {
 				info->entries[info->logical].cpu = cpu;
 				info->entries[info->logical].core = core;
 				info->logical++;
-				if (core > physical) {
+				if (core >= physical) {
 					physical = core + 1;
 				}
 			}

@@ -11,18 +11,20 @@
 #include "msg.h"
 
 /* How many times to run the benchmark (Default) */
-#define TRIALS 128
+#define TRIALS 32
 
 /* The benchmark memory to operate on (Default) */
-#define MEMORY (size_t)(32ull * 1024ull * 1024ull) // 32MiB
+#define MEMORY (size_t)(128ull * 1024ull * 1024ull) // 128MiB
 
 static void usage(const char *app, FILE *fp) {
 	fprintf(fp, "usage: %s [options]\n", app);
 	fprintf(fp, "options:\n"
-	            "  -s, --same          force read and write on the same cpu\n"
-	            "  -h, --help          print this help message\n"
-	            "  -m, --memory=MB     the amount of memory to work on in MB\n"
-	            "  -t, --trials=COUNT  the amount of trials to run for benchmark\n");
+	            "  -h, --help                     print this help message\n"
+	            "  -T, --threads=COUNT            the amount of threads to use per trial run\n"
+	            "  -m, --memory=MB                the amount of memory to work on in MiB\n"
+	            "  -t, --trials=COUNT             the amount of trials to run for benchmark\n"
+	            "  -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU\n"
+	            "  -p, --populate=OPTION          populate shared memory mapping before benching\n");
 }
 
 static int isparam(int argc, char **argv, int *arg, char sh, const char *lng, char **argarg) {
@@ -75,8 +77,10 @@ static int isparam(int argc, char **argv, int *arg, char sh, const char *lng, ch
 int main(int argc, char **argv)
 {
 	int trials = TRIALS;
+	int threads = -1;
+	int force_same_cpu = 0;
+	int populate = 0;
 	size_t memory = MEMORY;
-	int same = 0;
 
 	int arg = 1;
 	for (; arg != argc; ++arg) {
@@ -85,8 +89,18 @@ int main(int argc, char **argv)
 			usage(argv[0], stdout);
 			return EXIT_SUCCESS;
 		}
-		if (!strcmp(argv[arg], "-s") || !strcmp(argv[arg], "--same")) {
-			same = 1;
+		if (isparam(argc, argv, &arg, 'F', "force-same-cpu", &argarg)) {
+			if (arg < 0) {
+				return EXIT_FAILURE;
+			}
+			force_same_cpu = argarg ? atoi(argarg) : 1;
+			continue;
+		}
+		if (isparam(argc, argv, &arg, 'p', "populate", &argarg)) {
+			if (arg < 0) {
+				return EXIT_FAILURE;
+			}
+			populate = argarg ? atoi(argarg) : 1;
 			continue;
 		}
 		if (isparam(argc, argv, &arg, 't', "trials", &argarg)) {
@@ -94,6 +108,15 @@ int main(int argc, char **argv)
 				return EXIT_FAILURE;
 			}
 			trials = atoi(argarg);
+			continue;
+		}
+		if (isparam(argc, argv, &arg, 'T', "threads", &argarg)) {
+			if (arg < 0) {
+				return EXIT_FAILURE;
+			}
+			if (argarg) {
+				threads = atoi(argarg);
+			}
 			continue;
 		}
 		if (isparam(argc, argv, &arg, 'm', "memory", &argarg)) {
@@ -114,11 +137,20 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	printf("discovered %d logcial cpus, %d physical, %d threads per core\n", info.logical, info.physical, info.threads);
-	printf("measuing memory perf across CPUs with explicit memory mappings\n");
-	printf("running %d trials on a space of %s\n", trials, util_humansize(memory));
+	/* Have as many threads as there are physical cores by default */
+	if (threads == -1) {
+		threads = info.physical;
+	}
 
-	int threads = info.threads;
+	printf("discovered %d logcial CPU(s), %d physical, %d thread(s) per core\n", info.logical, info.physical, info.threads);
+	printf("measuring memory perf across CPU(s) with explicit memory mappings\n");
+	printf("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memory), threads);
+	if (force_same_cpu) {
+		printf("forcing read and writes on same physical CPU(s)\n");
+	}
+	if (populate) {
+		printf("populating shared memory map for benchmark\n");
+	}
 
 	/* Create shared memory for each thread to utilize. We cannot use
 	 * this processes memory because this process may be on the same
@@ -138,7 +170,7 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	unsigned char* touch = mmap(0, memory, PROT_NONE, MAP_SHARED | MAP_POPULATE, fd, 0);
+	unsigned char* touch = mmap(0, memory, PROT_NONE, MAP_SHARED | (populate ? MAP_POPULATE : 0), fd, 0);
 	if (touch == MAP_FAILED) {
 		fprintf(stderr, "failed to map shared memory\n");
 		close(fd);
@@ -151,49 +183,109 @@ int main(int argc, char **argv)
 		return EXIT_FAILURE;
 	}
 
-	struct thread wr;
-	struct thread rd;
+	struct task {
+		struct thread thread;
+		double beg; /* Time when task started */
+		double end; /* Time when task ended */
+		double dif; /* Last difference between task completion */
+		double avg; /* Running average of task differences */
+		int complete; /* Indicates if task is completed */
+	};
 
-	int wrt = 0;
-	int rdt = same ? threads : wrt;
-
-	double tbeg = util_gettime();
+	struct task *wr = calloc(sizeof *wr, threads);
+	if (!wr) {
+		goto oom;
+	}
+	struct task *rd = calloc(sizeof *rd, threads);
+	if (!rd) {
+		goto oom;
+	}
 
 	double wrtime = 0.0;
 	double rdtime = 0.0;
+
+	double tbeg = util_gettime();
+
 	for (int i = 0; i < trials; i++)
 	{
-		double wrbeg = util_gettime();
-		if (thread_init(&wr, wrt, WR, memory, &m) < 0) {
-			fprintf(stderr, "failed to create wr thread\n");
-			return EXIT_FAILURE;
+		/* Execute benchmarks on all threads for this trial */
+		for (int thread = 0; thread < threads; thread++)
+		{
+			int wrcpu = thread % info.logical;
+
+			/*
+			 * Note we assume that the current core index + how ever many threads per core - 1 will force the
+			 * reading thread onto another CPU. Or put another way, [0, n] where n is the # of threads per
+			 * core we assume to be the same CPU. This is true for almost all binned configurations but may
+			 * be different in NUMA systems.
+			 */
+			int rdcpu = force_same_cpu ? wrcpu : (thread + info.threads - 1) % info.logical;
+
+			/* Bring up write thread */
+			wr[thread].beg = util_gettime();
+			if (thread_init(&wr[thread].thread, wrcpu, WR, memory, &m) < 0) {
+				fprintf(stderr, "failed to create wr thread\n");
+				return EXIT_FAILURE;
+			}
+			thread_wait(&wr[thread].thread, fd);
+
+			/* Bring up read thread */
+			rd[thread].beg = util_gettime();
+			if (thread_init(&rd[thread].thread, rdcpu, RD, memory, &m) < 0) {
+				fprintf(stderr, "failed to create rd thread\n");
+				return EXIT_FAILURE;
+			}
+			thread_wait(&rd[thread].thread, fd);
 		}
-		thread_wait(&wr, fd);
 
-		double rdbeg = util_gettime();
-		if (thread_init(&rd, rdt, RD, memory, &m) < 0) {
-			fprintf(stderr, "failed to create rd thread\n");
-			return EXIT_FAILURE;
+		/* Wait for threads to complete in this trial */
+		int complete = 0;
+		while (complete < threads*2) {
+			for (int thread = 0; thread < threads; thread++)
+			{
+				if (!wr[thread].complete && thread_join(&wr[thread].thread) >= 0) {
+					wr[thread].end = util_gettime();
+					wr[thread].complete = 1;
+					complete++;
+				}
+
+				if (!rd[thread].complete && thread_join(&rd[thread].thread) >= 0) {
+					rd[thread].end = util_gettime();
+					rd[thread].complete = 1;
+					complete++;
+				}
+			}
 		}
-		thread_wait(&rd, fd);
 
-		thread_join(&wr);
-		double wrend = util_gettime();
+		/* Average difference across the threads in this trial */
+		double wrdif = 0.0;
+		double rddif = 0.0;
+		for (int thread = 0; thread < threads; thread++) {
+			/* Averages difference for all trial runs */
+			wr[thread].dif = wr[thread].end - wr[thread].beg;
+			rd[thread].dif = rd[thread].end - rd[thread].beg;
+			wr[thread].avg += wr[thread].dif;
+			rd[thread].avg += rd[thread].dif;
+			wrtime += wr[thread].dif;
+			rdtime += rd[thread].dif;
 
-		thread_join(&rd);
-		double rdend = util_gettime();
+			/* The averaged difference for this trial run */
+			wrdif += wr[thread].dif;
+			rddif += rd[thread].dif;
 
-		/* Calculate differences */
-		double wrdif = wrend - wrbeg;
-		double rddif = rdend - rdbeg;
-		wrtime += wrdif;
-		rdtime += rddif;
+			/* Reset completion status for next trial run */
+			wr[thread].complete = 0;
+			rd[thread].complete = 0;
 
-		printf("\rtrial %d of %d [%%% 3.2f] (wr %f sec, rd %f sec)", i+1, trials, (float)(i+1)/(float)trials*100.0f, wrdif, rddif);
+			/* Reset threads for next trial run */
+			thread_destroy(&wr[thread].thread);
+			thread_destroy(&rd[thread].thread);
+		}
+		wrdif /= threads;
+		rddif /= threads;
+
+		printf("\rtrial %d of %d [%%%3.2f] (wr %f sec, rd %f sec)", i+1, trials, (float)(i+1)/(float)trials*100.0f, wrdif, rddif);
 		fflush(stdout);
-
-		thread_destroy(&wr);
-		thread_destroy(&rd);
 	}
 
 	double tend = util_gettime();
@@ -205,6 +297,28 @@ int main(int argc, char **argv)
 	/* Close message channel */
 	msg_destroy(&m);
 
-	printf("finished average: (wr %f sec, rd %f sec) benchmark took %f secs total\n", wrtime/trials, rdtime/trials, tend-tbeg);
+	printf("thread averages:\n");
+	for (int thread = 0; thread < threads; thread++) {
+		int strides = threads*trials;
+		printf("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/strides, rd[thread].avg/strides);
+	}
+
+	printf("total average: (wr %f sec, rd %f sec)\n", wrtime/trials, rdtime/trials);
+	printf("benched %s worth of memory in %f secs total\n", util_humansize(threads*trials*MEMORY), tend-tbeg);
+
+	free(wr);
+	free(rd);
+
 	return EXIT_SUCCESS;
+
+oom:
+	fprintf(stderr, "Out of memory");
+
+	free(wr);
+	free(rd);
+
+	munmap(touch, memory);
+	msg_destroy(&m);
+
+	return EXIT_FAILURE;
 }

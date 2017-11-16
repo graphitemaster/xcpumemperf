@@ -37,7 +37,7 @@ int thread_init(struct thread *thread, int cpu, enum thread_type type, size_t me
 int thread_wait(struct thread *thread, int fd);
 
 /* Wait for the thread to complete */
-void thread_join(struct thread *thread);
+int thread_join(struct thread *thread);
 
 /* Destroy thread resources */
 void thread_destroy(struct thread *thread);

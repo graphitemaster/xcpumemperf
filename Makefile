@@ -1,14 +1,14 @@
 TARGET = xcpumemperf
 LIBS = -lpthread -lrt
 CC = gcc
-CFLAGS = -Wall -Wextra -Wno-format-truncation -O2
+CFLAGS = -Wall -Wextra -Wno-format-truncation -O3
 
 .PHONY: default all clean
 
 default: $(TARGET)
 all: default
 
-OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
+OBJECTS = $(patsubst %.c,%.o,$(wildcard *.c))
 HEADERS = $(wildcard *.h)
 
 %.o: %.c $(HEADERS)
