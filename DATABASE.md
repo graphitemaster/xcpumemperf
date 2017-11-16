@@ -99,6 +99,26 @@ total average: (wr 1.881468 sec, rd 1.655813 sec)
 benched 32.00 GiB worth of memory (295.20 MiB/s) in 110.436308 secs total
 ```
 
+#### i7-7700K
+```
+discovered Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
+trial 32 of 32 [%100.00] (wr 1.717903 sec, rd 1.459413 sec)
+thread pair averages:
+  1 (wr 2.663711 sec, rd 2.468838 sec)
+  2 (wr 2.317031 sec, rd 2.167518 sec)
+  3 (wr 2.001989 sec, rd 1.796020 sec)
+  4 (wr 1.627218 sec, rd 1.458980 sec)
+  5 (wr 1.279291 sec, rd 1.114968 sec)
+  6 (wr 0.943537 sec, rd 0.781062 sec)
+  7 (wr 0.607803 sec, rd 0.435665 sec)
+  8 (wr 0.282312 sec, rd 0.134656 sec)
+total average: (wr 1.465362 sec, rd 1.294713 sec)
+benched 32.00 GiB worth of memory (381.02 MiB/s) in 85.755991 secs total
+```
+
 ### 12 Thread Configurations
 
 #### Xeon E5-2620
