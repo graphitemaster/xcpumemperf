@@ -51,10 +51,9 @@ int util_getcpuinfo(struct cpuinfo* info) {
 		return -1;
 	}
 
-	/* There's always at least one logical */
 	info->logical = 0;
 
-	/* There's always at least on physical */
+	/* There's always at least one physical */
 	int physical = 1;
 
 	/* Read the output of lscpu */
