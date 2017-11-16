@@ -55,3 +55,33 @@ thread pair averages:
 total average: (wr 13.737098 sec, rd 12.153213 sec)
 benched 32.00 GiB worth of memory (327.67 MiB/s) in 99.339052 secs total
 ```
+
+### 16 Thread Configurations
+
+#### Ryzen 1700
+```
+discovered AMD Ryzen 7 1700 Eight-Core Processor: 16 logical CPU(s), 8 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 16 thread pair(s) or 32 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1]
+trial 32 of 32 [%100.00] (wr 4.090589 sec, rd 3.867743 sec)
+thread pair averages:
+  1 (wr 0.399450 sec, rd 0.385597 sec)
+  2 (wr 0.372777 sec, rd 0.359633 sec)
+  3 (wr 0.345440 sec, rd 0.332201 sec)
+  4 (wr 0.320843 sec, rd 0.307949 sec)
+  5 (wr 0.295633 sec, rd 0.285405 sec)
+  6 (wr 0.273003 sec, rd 0.260389 sec)
+  7 (wr 0.248149 sec, rd 0.236520 sec)
+  8 (wr 0.223979 sec, rd 0.211403 sec)
+  9 (wr 0.198601 sec, rd 0.185856 sec)
+  10 (wr 0.172638 sec, rd 0.158770 sec)
+  11 (wr 0.146475 sec, rd 0.134606 sec)
+  12 (wr 0.121049 sec, rd 0.108149 sec)
+  13 (wr 0.097519 sec, rd 0.084999 sec)
+  14 (wr 0.071480 sec, rd 0.059889 sec)
+  15 (wr 0.048497 sec, rd 0.036880 sec)
+  16 (wr 0.024205 sec, rd 0.012264 sec)
+total average: (wr 53.755813 sec, rd 50.568159 sec)
+benched 64.00 GiB worth of memory (319.68 MiB/s) in 204.765464 secs total
+```
