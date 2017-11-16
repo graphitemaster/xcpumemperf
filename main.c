@@ -178,6 +178,17 @@ int main(int argc, char **argv)
 		threads = info.logical;
 	}
 
+	if (threads >= info.logical) {
+		printf("warning the following benchmark will saturate your CPU with the selected configuration of %d threads\n", threads);
+		printf("do you want to continue? [Y/n] ");
+		fflush(stdout);
+		int ch = getchar();
+		if (ch != 'y' && ch != 'Y') {
+			return EXIT_SUCCESS;
+		}
+		printf("\n");
+	}
+
 	char memfmt[1024];
 	out("discovered %s: %d logical CPU(s), %d physical, %d thread(s) per core\n", info.name, info.logical, info.physical, info.threads);
 	out("measuring memory perf across CPU(s) with explicit memory mappings\n");
