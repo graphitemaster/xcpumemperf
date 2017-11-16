@@ -180,7 +180,7 @@ int main(int argc, char **argv)
 
 	if (threads >= info.logical) {
 		printf("warning the following benchmark will saturate your CPU with the selected configuration of %d threads\n", threads);
-		printf("do you want to continue? [y/N] ");
+		printf("do you want to continue? [Y/n] ");
 		fflush(stdout);
 		int ch = getchar();
 		if (!strchr("\nyY", ch)) {
