@@ -1,5 +1,7 @@
 # Measure cross CPU memory performance
 
+[Some results](result.png)
+
 ## Dependencies
 
 The following tool shells out to a few commands to query certain pieces
