@@ -13,11 +13,6 @@ options:
   -p, --populate=OPTION          populate shared memory mapping before benching
 ```
 
-In general a good test case is `-m 1024 -t 128` the default operates
-on 32MiB pool with 128 trials which is sufficent for a coarse result,
-larger memory pools are better. This tool will behave quicker if huge
-pages are enabled (2MiB or 1GiB.)
-
 ## Rationale
 
 This was written to show a pathological case with Ryzen where this
