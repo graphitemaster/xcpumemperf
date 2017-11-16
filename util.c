@@ -17,7 +17,7 @@ double util_gettime(void)
 	return t.tv_sec + t.tv_usec*1e-6;
 }
 
-const char* util_humansize(size_t size)
+const char* util_humansize(char *fmtbuffer, size_t bufsize, size_t size)
 {
 	static const char *sizes[] = { "B", "KiB", "MiB", "GiB", "TiB" };
 
@@ -41,9 +41,8 @@ const char* util_humansize(size_t size)
 	period[3] = '\0';
 
 	/* Format with human readable suffix */
-	static char format[sizeof buffer + 5];
-	snprintf(format, sizeof format, "%s %s", buffer, sizes[index] );
-	return format;
+	snprintf(fmtbuffer, bufsize, "%s %s", buffer, sizes[index]);
+	return fmtbuffer;
 }
 
 int util_getcpuinfo(struct cpuinfo* info) {

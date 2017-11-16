@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -142,9 +143,10 @@ int main(int argc, char **argv)
 		threads = info.physical;
 	}
 
+	char memfmt[1024];
 	printf("discovered %d logcial CPU(s), %d physical, %d thread(s) per core\n", info.logical, info.physical, info.threads);
 	printf("measuring memory perf across CPU(s) with explicit memory mappings\n");
-	printf("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memory), threads);
+	printf("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memfmt, sizeof memfmt, memory), threads);
 	if (force_same_cpu) {
 		printf("forcing read and writes on same physical CPU(s)\n");
 	}
@@ -303,8 +305,13 @@ int main(int argc, char **argv)
 		printf("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/strides, rd[thread].avg/strides);
 	}
 
+	double time = tend-tbeg;
+	size_t size = threads*trials*memory;
+	size_t size_sec = size / (size_t)ceil(time);
+	char sizetfmt[1024];
+	char sizesfmt[1024];
 	printf("total average: (wr %f sec, rd %f sec)\n", wrtime/trials, rdtime/trials);
-	printf("benched %s worth of memory in %f secs total\n", util_humansize(threads*trials*MEMORY), tend-tbeg);
+	printf("benched %s worth of memory (%s/s) in %f secs total\n", util_humansize(sizetfmt, sizeof sizetfmt, size), util_humansize(sizesfmt, sizeof sizesfmt, size_sec), time);
 
 	free(wr);
 	free(rd);
