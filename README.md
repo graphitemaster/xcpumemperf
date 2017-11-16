@@ -5,10 +5,12 @@
 ```
 usage: ./xcpumemperf [options]
 options:
-  -s, --same          force read and write on the same cpu
-  -h, --help          print this help message
-  -m, --memory=MB     the amount of memory to work on in MB
-  -t, --trials=COUNT  the amount of trials to run for benchmark
+  -h, --help                     print this help message
+  -T, --threads=COUNT            the amount of threads to use per trial run
+  -m, --memory=MB                the amount of memory to work on in MiB
+  -t, --trials=COUNT             the amount of trials to run for benchmark
+  -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU
+  -p, --populate=OPTION          populate shared memory mapping before benching
 ```
 
 In general a good test case is `-m 1024 -t 128` the default operates
