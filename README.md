@@ -11,17 +11,20 @@ installed or present.
 * uniq (any will do)
 * sed (any will do)
 * cut (any will do)
+* curl (this is optional and is only needed for -s or --share)
 
 ## Options
 
 ```
 usage: ./xcpumemperf [options]
 options:
+options:
   -h, --help                     print this help message
   -T, --threads=COUNT            the amount of threads to use per trial run
   -m, --memory=MB                the amount of memory to work on in MiB
   -t, --trials=COUNT             the amount of trials to run for benchmark
   -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU
+  -s, --share                    share results by posting output to sprunge
   -p, --populate=OPTION          populate shared memory mapping before benching
 ```
 

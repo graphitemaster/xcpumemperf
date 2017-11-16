@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include <math.h>
 
 #include <unistd.h>
@@ -17,6 +18,10 @@
 /* The benchmark memory to operate on (Default) */
 #define MEMORY (size_t)(128ull * 1024ull * 1024ull) // 128MiB
 
+#define SHAREFILE "/tmp/xcpumemperf.result"
+
+static FILE* share;
+
 static void usage(const char *app, FILE *fp) {
 	fprintf(fp, "usage: %s [options]\n", app);
 	fprintf(fp, "options:\n"
@@ -25,6 +30,7 @@ static void usage(const char *app, FILE *fp) {
 	            "  -m, --memory=MB                the amount of memory to work on in MiB\n"
 	            "  -t, --trials=COUNT             the amount of trials to run for benchmark\n"
 	            "  -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU\n"
+	            "  -s, --share                    share results by posting output to sprunge\n"
 	            "  -p, --populate=OPTION          populate shared memory mapping before benching\n");
 }
 
@@ -75,6 +81,18 @@ static int isparam(int argc, char **argv, int *arg, char sh, const char *lng, ch
 	return 0;
 }
 
+static void out(const char *fmt, ...) {
+	va_list va;
+	va_start(va, fmt);
+	vfprintf(stdout, fmt, va);
+	va_end(va);
+	if (share) {
+		va_start(va, fmt);
+		vfprintf(share, fmt, va);
+		va_end(va);
+	}
+}
+
 int main(int argc, char **argv)
 {
 	int trials = TRIALS;
@@ -82,6 +100,7 @@ int main(int argc, char **argv)
 	int force_same_cpu = 0;
 	int populate = 0;
 	size_t memory = MEMORY;
+	int result = EXIT_FAILURE;
 
 	int arg = 1;
 	for (; arg != argc; ++arg) {
@@ -89,6 +108,15 @@ int main(int argc, char **argv)
 		if (!strcmp(argv[arg], "-h") || !strcmp(argv[arg], "--help")) {
 			usage(argv[0], stdout);
 			return EXIT_SUCCESS;
+		}
+		if (isparam(argc, argv, &arg, 's', "share", &argarg)) {
+			if (arg < 0) {
+				return EXIT_FAILURE;
+			}
+			if (argarg ? atoi(argarg) : 1) {
+				share = fopen(SHAREFILE, "w");
+			}
+			continue;
 		}
 		if (isparam(argc, argv, &arg, 'F', "force-same-cpu", &argarg)) {
 			if (arg < 0) {
@@ -144,14 +172,14 @@ int main(int argc, char **argv)
 	}
 
 	char memfmt[1024];
-	printf("discovered %s: %d logical CPU(s), %d physical, %d thread(s) per core\n", info.name, info.logical, info.physical, info.threads);
-	printf("measuring memory perf across CPU(s) with explicit memory mappings\n");
-	printf("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memfmt, sizeof memfmt, memory), threads);
+	out("discovered %s: %d logical CPU(s), %d physical, %d thread(s) per core\n", info.name, info.logical, info.physical, info.threads);
+	out("measuring memory perf across CPU(s) with explicit memory mappings\n");
+	out("running %d trial(s) on a space of %s with %d thread(s) per trial run\n", trials, util_humansize(memfmt, sizeof memfmt, memory), threads);
 	if (force_same_cpu) {
-		printf("forcing read and writes on same physical CPU(s)\n");
+		out("forcing read and writes on same physical CPU(s)\n");
 	}
 	if (populate) {
-		printf("populating shared memory map for benchmark\n");
+		out("populating shared memory map for benchmark\n");
 	}
 
 	/* Create shared memory for each thread to utilize. We cannot use
@@ -198,11 +226,13 @@ int main(int argc, char **argv)
 	struct task *rd = NULL;
 	wr = calloc(sizeof *wr, threads);
 	if (!wr) {
-		goto oom;
+		fprintf(stderr, "Out of memory");
+		goto cleanup;
 	}
 	rd = calloc(sizeof *rd, threads);
 	if (!rd) {
-		goto oom;
+		fprintf(stderr, "Out of memory");
+		goto cleanup;
 	}
 
 	double wrtime = 0.0;
@@ -290,21 +320,20 @@ int main(int argc, char **argv)
 
 		printf("\rtrial %d of %d [%%%3.2f] (wr %f sec, rd %f sec)", i+1, trials, (float)(i+1)/(float)trials*100.0f, wrdif, rddif);
 		fflush(stdout);
+
+		/* Emit the last one to the share log if specified */
+		if (share && i == trials - 1) {
+			fprintf(share, "trial %d of %d [%%%3.2f] (wr %f sec, rd %f sec)\n", i+1, trials, (float)(i+1)/(float)trials*100.0f, wrdif, rddif);
+		}
 	}
 
 	double tend = util_gettime();
 	printf("\n");
 
-	/* Unmap shared memory */
-	munmap(touch, memory);
-
-	/* Close message channel */
-	msg_destroy(&m);
-
-	printf("thread averages:\n");
+	out("thread averages:\n");
 	for (int thread = 0; thread < threads; thread++) {
 		int strides = threads*trials;
-		printf("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/strides, rd[thread].avg/strides);
+		out("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/strides, rd[thread].avg/strides);
 	}
 
 	double time = tend-tbeg;
@@ -312,22 +341,30 @@ int main(int argc, char **argv)
 	size_t size_sec = size / (size_t)ceil(time);
 	char sizetfmt[1024];
 	char sizesfmt[1024];
-	printf("total average: (wr %f sec, rd %f sec)\n", wrtime/trials, rdtime/trials);
-	printf("benched %s worth of memory (%s/s) in %f secs total\n", util_humansize(sizetfmt, sizeof sizetfmt, size), util_humansize(sizesfmt, sizeof sizesfmt, size_sec), time);
+	out("total average: (wr %f sec, rd %f sec)\n", wrtime/trials, rdtime/trials);
+	out("benched %s worth of memory (%s/s) in %f secs total\n", util_humansize(sizetfmt, sizeof sizetfmt, size), util_humansize(sizesfmt, sizeof sizesfmt, size_sec), time);
 
-	free(wr);
-	free(rd);
+	if (share) {
+		printf("share your result: ");
+		fflush(stdout);
+		fclose(share);
+		share = NULL;
+		system("cat " SHAREFILE " | curl -F 'sprunge=<-' http://sprunge.us");
+		unlink(SHAREFILE);
+	}
 
-	return EXIT_SUCCESS;
+	result = EXIT_SUCCESS;
 
-oom:
-	fprintf(stderr, "Out of memory");
-
+cleanup:
 	free(wr);
 	free(rd);
 
 	munmap(touch, memory);
 	msg_destroy(&m);
 
-	return EXIT_FAILURE;
+	if (share) {
+		fclose(share);
+	}
+
+	return result;
 }
