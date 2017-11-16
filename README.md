@@ -9,6 +9,7 @@ installed or present.
 * lscpu (in particular one which supports --parse=OPTIONS)
 * grep (any will do)
 * uniq (any will do)
+* sed (any will do)
 * cut (any will do)
 
 ## Options
