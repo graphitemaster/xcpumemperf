@@ -26,14 +26,14 @@ static FILE* share;
 static void usage(const char *app, FILE *fp) {
 	fprintf(fp, "usage: %s [options]\n", app);
 	fprintf(fp, "options:\n"
-	            "  -h, --help                     print this help message\n"
-	            "  -T, --threads=COUNT            the amount of threads to use per trial run\n"
-	            "  -m, --memory=MB                the amount of memory to work on in MiB\n"
-	            "  -t, --trials=COUNT             the amount of trials to run for benchmark\n"
-	            "  -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU\n"
-	            "  -s, --share                    share results by posting output to sprunge\n"
-	            "  -p, --populate=OPTION          populate shared memory mapping before benching\n"
-	            "  -H, --hugepage=DIR             create a huge page using this directory (must be a hugepages mountpoint)\n");
+	            "  -h, --help            print this help message\n"
+	            "  -T, --threads=COUNT   the amount of threads to use per trial run\n"
+	            "  -m, --memory=MB       the amount of memory to work on in MiB\n"
+	            "  -t, --trials=COUNT    the amount of trials to run for benchmark\n"
+	            "  -F, --force_same_cpu  forces read and write pairs to end up on the same CPU\n"
+	            "  -s, --share           share results by posting output to sprunge\n"
+	            "  -p, --populate        populate shared memory mapping before benching\n"
+	            "  -H, --hugepage=DIR    create a huge page using this directory (must be a hugepages mountpoint)\n");
 }
 
 static int isparam(int argc, char **argv, int *arg, char sh, const char *lng, char **argarg) {
@@ -112,20 +112,12 @@ int main(int argc, char **argv)
 			usage(argv[0], stdout);
 			return EXIT_SUCCESS;
 		}
-		if (isparam(argc, argv, &arg, 's', "share", &argarg)) {
-			if (arg < 0) {
-				return EXIT_FAILURE;
-			}
-			if (argarg ? atoi(argarg) : 1) {
-				share = fopen(SHAREFILE, "w");
-			}
+		if (!strcmp(argv[arg], "-s") || !strcmp(argv[arg], "--share")) {
+			share = fopen(SHAREFILE, "w");
 			continue;
 		}
-		if (isparam(argc, argv, &arg, 'F', "force-same-cpu", &argarg)) {
-			if (arg < 0) {
-				return EXIT_FAILURE;
-			}
-			force_same_cpu = argarg ? atoi(argarg) : 1;
+		if (!strcmp(argv[arg], "-F") || !strcmp(argv[arg], "--force-same-cpu")) {
+			force_same_cpu = 1;
 			continue;
 		}
 		if (isparam(argc, argv, &arg, 'p', "populate", &argarg)) {
