@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include <unistd.h>
+#include <limits.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 
@@ -31,7 +32,8 @@ static void usage(const char *app, FILE *fp) {
 	            "  -t, --trials=COUNT             the amount of trials to run for benchmark\n"
 	            "  -F, --force_same_cpu=OPTION    forces read and write pairs to end up on the same CPU\n"
 	            "  -s, --share                    share results by posting output to sprunge\n"
-	            "  -p, --populate=OPTION          populate shared memory mapping before benching\n");
+	            "  -p, --populate=OPTION          populate shared memory mapping before benching\n"
+	            "  -H, --hugepage=DIR             create a huge page using this directory\n");
 }
 
 static int isparam(int argc, char **argv, int *arg, char sh, const char *lng, char **argarg) {
@@ -101,6 +103,7 @@ int main(int argc, char **argv)
 	int populate = 0;
 	size_t memory = MEMORY;
 	int result = EXIT_FAILURE;
+	char hugepage_path[PATH_MAX];
 
 	int arg = 1;
 	for (; arg != argc; ++arg) {
@@ -155,6 +158,17 @@ int main(int argc, char **argv)
 			memory = (size_t)atoi(argarg) * 1024ull * 1024ull;
 			continue;
 		}
+		if (isparam(argc, argv, &arg, 'H', "hugepage", &argarg)) {
+			if (arg < 0) {
+				return EXIT_FAILURE;
+			}
+			if (argarg[0]) {
+				(void)snprintf(hugepage_path, sizeof hugepage_path, "%s/xcpumemperf.%d", argarg, getpid());
+			} else {
+				hugepage_path[0] = 0;
+			}
+			continue;
+		}
 		fprintf(stderr, "unknown option: %s\n", argv[arg]);
 		usage(argv[0], stderr);
 		return EXIT_FAILURE;
@@ -187,13 +201,22 @@ int main(int argc, char **argv)
 	 * core as the read or write thread. We want each thread to get its
 	 * own mapping for it.
 	 */
-	int fd = shm_open("/xcpumemperf", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
+	int fd;
+	if (hugepage_path[0]) {
+		fd = open(hugepage_path, O_CREAT | O_EXCL | O_RDWR, S_IRUSR | S_IWUSR);
+	} else {
+		fd = shm_open("/xcpumemperf", O_CREAT | O_TRUNC | O_RDWR, S_IRUSR | S_IWUSR);
+	}
 	if (fd < 0) {
 		fprintf(stderr, "failed to create shared memory\n");
 		return EXIT_FAILURE;
 	}
 	/* No longer need the name */
-	shm_unlink("/xcpumemperf");
+	if (hugepage_path[0]) {
+		shm_unlink("/xcpumemperf");
+	} else {
+		unlink(hugepage_path);
+	}
 	if (ftruncate(fd, memory) < 0) {
 		fprintf(stderr, "failed to truncate shared memory\n");
 		close(fd);
