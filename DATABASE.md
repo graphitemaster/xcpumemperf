@@ -2,7 +2,7 @@
 
 ### i7-4790K
 ```
-discovered Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz: 8 logcial CPU(s), 4 physical, 2 thread(s) per core
+discovered Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
 running 32 trial(s) on a space of 128.00 MiB with 4 thread(s) per trial run
 trial 32 of 32 [%100.00] (wr 1.405175 sec, rd 1.188535 sec)
@@ -15,9 +15,24 @@ total average: (wr 6.815728 sec, rd 5.398306 sec)
 benched 16.00 GiB worth of memory (180.04 MiB/s) in 90.216036 secs total
 ```
 
+### i7-6700k
+```
+discovered Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 4 thread(s) per trial run
+trial 32 of 32 [%100.00] (wr 1.415474 sec, rd 1.096290 sec)
+thread averages:
+  1 (wr 0.211443 sec, rd 0.188549 sec)
+  2 (wr 0.163605 sec, rd 0.136219 sec)
+  3 (wr 0.109080 sec, rd 0.078811 sec)
+  4 (wr 0.051359 sec, rd 0.023321 sec)
+total average: (wr 2.141946 sec, rd 1.707605 sec)
+benched 16.00 GiB worth of memory (585.14 MiB/s) in 27.065301 secs total
+```
+
 ### Ryzen 1700
 ```
-discovered AMD Ryzen 7 1700 Eight-Core Processor: 16 logcial CPU(s), 8 physical, 2 thread(s) per core
+discovered AMD Ryzen 7 1700 Eight-Core Processor: 16 logical CPU(s), 8 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
 running 32 trial(s) on a space of 128.00 MiB with 8 thread(s) per trial run
 trial 32 of 32 [%100.00] (wr 3.409272 sec, rd 3.044805 sec)
