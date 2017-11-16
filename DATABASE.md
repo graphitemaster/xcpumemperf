@@ -1,6 +1,42 @@
-# The following are timings from various CPUs with default configurations
+# Comparison of various CPU(s)
 
-### i7-4710HQ
+## How to compare these results
+
+You cannot make a comparison between runs with different amounts of threads
+used per trial run. At least not directly. Remember that two threads are
+spawned per thread trial run (a read thread and a write thread) so when
+you see `N thread(s) per trial run` there is actually `N*2` threads being
+run in total for that one trial. More threads will take longer even if
+the threads are all scheduled at the same time, the memory has to be
+touched more which in turn makes it slower. In general, if the configuration
+has more physical cores it will be slower than say a really old system
+with only a few.
+
+However, fret not. It's possible to make the comparison between these
+systems by taking a look at the amount of memory benched. For instance
+if one configuration benched 16 GiB while another only benched 2 GiB,
+then the difference between them is a factor of 8. Taking this into
+account you need to multiply the 16 GiB's speed by 8 to compare it to
+the lesser system for throughput, similarly you'd multiply the lesser
+configuration's time by 8*2 to scale it to compare relative speed.
+
+## Configurations
+
+The results of the configurations are organized by the amount of threads
+used per trial run to make comparing the results much easier. Tho
+you can still compare results against different threads per trial run
+counts as described above.
+
+The following are timings from various CPUs with the default options
+of `xcpumempref`.
+
+You can contribute your timings here by submitting a pull request. The
+more configurations we have the better it'll be to provide some useful
+graphs in the future.
+
+### 4 Thread Configurations
+
+#### i7-4710HQ
 ```
 discovered Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
@@ -15,7 +51,7 @@ total average: (wr 2.068476 sec, rd 1.648289 sec)
 benched 16.00 GiB worth of memory (585.14 MiB/s) in 27.234011 secs total
 ```
 
-### i7-4790K
+#### i7-4790K
 ```
 discovered Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
@@ -30,7 +66,7 @@ total average: (wr 6.815728 sec, rd 5.398306 sec)
 benched 16.00 GiB worth of memory (180.04 MiB/s) in 90.216036 secs total
 ```
 
-### i7-6700k
+#### i7-6700k
 ```
 discovered Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
@@ -45,7 +81,9 @@ total average: (wr 2.141946 sec, rd 1.707605 sec)
 benched 16.00 GiB worth of memory (585.14 MiB/s) in 27.065301 secs total
 ```
 
-### Ryzen 1700
+### 8 Thread Configurations
+
+#### Ryzen 1700
 ```
 discovered AMD Ryzen 7 1700 Eight-Core Processor: 16 logical CPU(s), 8 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
@@ -64,8 +102,7 @@ total average: (wr 13.322433 sec, rd 11.899265 sec)
 benched 32.00 GiB worth of memory (337.81 MiB/s) in 96.391158 secs total
 ```
 
-
-### Xeon E5-2650 v1 (2 channels of 4)
+#### Xeon E5-2650 v1 (2 channels of 4)
 ```
 discovered Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
