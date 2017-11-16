@@ -88,6 +88,7 @@ int util_getcpuinfo(struct cpuinfo* info) {
 		if (line[length - 2] == '\r') line[length - 2] = '\0';
 		if (line[length - 1] == '\n') line[length - 1] = '\0';
 		snprintf(info->name, sizeof info->name, "%s", line);
+		fclose(fp);
 	}
 
 	/*
