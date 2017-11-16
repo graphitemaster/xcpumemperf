@@ -63,3 +63,23 @@ thread averages:
 total average: (wr 13.322433 sec, rd 11.899265 sec)
 benched 32.00 GiB worth of memory (337.81 MiB/s) in 96.391158 secs total
 ```
+
+
+### Xeon E5-2650 v1 (2 channels of 4)
+```
+discovered Intel(R) Xeon(R) CPU E5-2650 0 @ 2.00GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread(s) per trial run
+trial 32 of 32 [%100.00] (wr 3.420858 sec, rd 3.014795 sec)
+thread averages:
+  1 (wr 0.355105 sec, rd 0.334069 sec)
+  2 (wr 0.315440 sec, rd 0.296332 sec)
+  3 (wr 0.275131 sec, rd 0.256213 sec)
+  4 (wr 0.234123 sec, rd 0.208792 sec)
+  5 (wr 0.191269 sec, rd 0.168584 sec)
+  6 (wr 0.145721 sec, rd 0.123997 sec)
+  7 (wr 0.099425 sec, rd 0.071881 sec)
+  8 (wr 0.047795 sec, rd 0.022334 sec)
+total average: (wr 13.312079 sec, rd 11.857610 sec)
+benched 32.00 GiB worth of memory (360.08 MiB/s) in 90.909019 secs total
+```
