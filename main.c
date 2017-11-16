@@ -352,8 +352,6 @@ int main(int argc, char **argv)
 			rd[thread].dif = rd[thread].end - rd[thread].beg;
 			wr[thread].avg += wr[thread].dif;
 			rd[thread].avg += rd[thread].dif;
-			wrtime += wr[thread].dif;
-			rdtime += rd[thread].dif;
 
 			/* The averaged difference for this trial run */
 			wrdif += wr[thread].dif;
@@ -369,6 +367,8 @@ int main(int argc, char **argv)
 		}
 		wrdif /= threads;
 		rddif /= threads;
+		wrtime += wrdif;
+		rdtime += rddif;
 
 		printf("\rtrial %d of %d [%%%3.2f] (wr %f sec, rd %f sec)", i+1, trials, (float)(i+1)/(float)trials*100.0f, wrdif, rddif);
 		fflush(stdout);
@@ -384,8 +384,7 @@ int main(int argc, char **argv)
 
 	out("thread pair averages:\n");
 	for (int thread = 0; thread < threads; thread++) {
-		int strides = threads*trials;
-		out("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/strides, rd[thread].avg/strides);
+		out("  %d (wr %f sec, rd %f sec)\n", thread+1, wr[thread].avg/trials, rd[thread].avg/trials);
 	}
 
 	double time = tend-tbeg;
