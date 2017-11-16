@@ -1,7 +1,7 @@
 TARGET = xcpumemperf
 LIBS = -lm -lpthread -lrt
 CC = gcc
-CFLAGS = -Wall -Wextra -Wno-format-truncation -g3
+CFLAGS = -Wall -Wextra -Wno-format-truncation -O2
 
 .PHONY: default all clean
 
