@@ -6,7 +6,7 @@ The following tool shells out to a few commands to query certain pieces
 of information, in particular you'll need the following shell commands
 installed or present.
 
-* lscpu (in particular one which supports --parse=OPTIONS)
+* lscpu (in particular one which supports `--parse=OPTIONS`)
 * grep (any will do)
 * uniq (any will do)
 * sed (any will do)
