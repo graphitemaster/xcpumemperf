@@ -316,6 +316,8 @@ int main(int argc, char **argv)
 			wr[thread].beg = util_gettime();
 			if (thread_init(&wr[thread].thread, pairs[thread].wr, WR, memory, &m) < 0) {
 				fprintf(stderr, "failed to create wr thread\n");
+                free(rd);
+                free(pairs);
 				return EXIT_FAILURE;
 			}
 			thread_wait(&wr[thread].thread, fd);
@@ -324,6 +326,7 @@ int main(int argc, char **argv)
 			rd[thread].beg = util_gettime();
 			if (thread_init(&rd[thread].thread, pairs[thread].rd, RD, memory, &m) < 0) {
 				fprintf(stderr, "failed to create rd thread\n");
+                free(pairs);
 				return EXIT_FAILURE;
 			}
 			thread_wait(&rd[thread].thread, fd);
