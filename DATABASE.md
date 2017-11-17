@@ -29,12 +29,12 @@ This staggering is controlled by the amount of threads per core. You
 can disable staggering with -F or --force-same-cpu.
 
 The rest of the output is a list of running average seconds on each
-thread pair that carried out the trials. This output serves to show how
-the top most pairs tend to be the slowest while the bottom most ones are
-faster, which proves that memory bandwidth scales with the thread count.
-If you see values at the bottom of the list having averages higer than
-the top then you've hit a pathological case where more threads makes
-memory slower.
+thread pair that carried out the trials. It's a running average so
+it'll always decrease in time since it's relative to the previous
+trials. The distance between steps in each run should be proportional
+to how many trials have already been completed. You can think of it
+as the delta amount of time relative to all other thread trials before
+it.
 
 The final line is what can be used for comparison, in particular it tells
 you how much memory was touched through the course of all trials for
