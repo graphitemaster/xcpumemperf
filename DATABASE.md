@@ -136,27 +136,7 @@ total average: (wr 1.946450 sec, rd 1.732069 sec)
 benched 32.00 GiB worth of memory (292.57 MiB/s) in 111.749234 secs total
 ```
 
-#### i7-4800MQ
-```
-discovered Intel(R) Core(TM) i7-4800MQ CPU @ 2.70GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
-measuring memory perf across CPU(s) with explicit memory mappings
-running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
-thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
-trial 32 of 32 [%100.00] (wr 2.662296 sec, rd 2.386916 sec)
-thread pair averages:
-  1 (wr 3.648443 sec, rd 3.393188 sec)
-  2 (wr 3.167436 sec, rd 2.935026 sec)
-  3 (wr 2.709503 sec, rd 2.465347 sec)
-  4 (wr 2.224371 sec, rd 1.980122 sec)
-  5 (wr 1.746518 sec, rd 1.511296 sec)
-  6 (wr 1.275610 sec, rd 1.010919 sec)
-  7 (wr 0.803538 sec, rd 0.613126 sec)
-  8 (wr 0.406616 sec, rd 0.222207 sec)
-total average: (wr 1.997754 sec, rd 1.766404 sec)
-benched 32.00 GiB worth of memory (277.69 MiB/s) in 117.104607 secs total
-```
-
-#### i7-4720MQ
+#### i7-4702MQ
 ```
 discovered Intel(R) Core(TM) i7-4702MQ CPU @ 2.20GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
@@ -194,6 +174,25 @@ thread pair averages:
   8 (wr 0.426604 sec, rd 0.203752 sec)
 total average: (wr 1.881468 sec, rd 1.655813 sec)
 benched 32.00 GiB worth of memory (295.20 MiB/s) in 110.436308 secs total
+```
+#### i7-4800MQ
+```
+discovered Intel(R) Core(TM) i7-4800MQ CPU @ 2.70GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
+trial 32 of 32 [%100.00] (wr 2.662296 sec, rd 2.386916 sec)
+thread pair averages:
+  1 (wr 3.648443 sec, rd 3.393188 sec)
+  2 (wr 3.167436 sec, rd 2.935026 sec)
+  3 (wr 2.709503 sec, rd 2.465347 sec)
+  4 (wr 2.224371 sec, rd 1.980122 sec)
+  5 (wr 1.746518 sec, rd 1.511296 sec)
+  6 (wr 1.275610 sec, rd 1.010919 sec)
+  7 (wr 0.803538 sec, rd 0.613126 sec)
+  8 (wr 0.406616 sec, rd 0.222207 sec)
+total average: (wr 1.997754 sec, rd 1.766404 sec)
+benched 32.00 GiB worth of memory (277.69 MiB/s) in 117.104607 secs total
 ```
 
 #### i7-6700K
@@ -256,6 +255,26 @@ total average: (wr 1.683121 sec, rd 1.491872 sec)
 benched 32.00 GiB worth of memory (334.36 MiB/s) in 97.245199 secs total
 ```
 
+#### Xeon E5-2609
+```
+discovered Intel(R) Xeon(R) CPU E5-2609 0 @ 2.40GHz: 8 logical CPU(s), 8 physical, 1 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 1] [1, 2] [2, 3] [3, 4] [4, 5] [5, 6] [6, 7] [7, 0]
+trial 32 of 32 [%100.00] (wr 3.457064 sec, rd 3.086780 sec)
+thread pair averages:
+  1 (wr 3.622806 sec, rd 3.382127 sec)
+  2 (wr 3.164791 sec, rd 2.931709 sec)
+  3 (wr 2.694972 sec, rd 2.470696 sec)
+  4 (wr 2.232260 sec, rd 2.017634 sec)
+  5 (wr 1.808695 sec, rd 1.585226 sec)
+  6 (wr 1.360359 sec, rd 1.116778 sec)
+  7 (wr 0.904735 sec, rd 0.669876 sec)
+  8 (wr 0.417126 sec, rd 0.198439 sec)
+total average: (wr 2.025718 sec, rd 1.796561 sec)
+benched 32.00 GiB worth of memory (280.06 MiB/s) in 116.308600 secs total
+```
+
 ### 12 Thread Configurations
 
 #### Xeon E5-2620
@@ -310,6 +329,34 @@ thread pair averages:
   16 (wr 0.394149 sec, rd 0.201778 sec)
 total average: (wr 3.392124 sec, rd 3.191888 sec)
 benched 64.00 GiB worth of memory (318.13 MiB/s) in 205.969100 secs total
+```
+
+#### Xeon X5672
+```
+discovered Intel(R) Xeon(R) CPU X5672 @ 3.20GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 16 thread pair(s) or 32 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1] 
+trial 32 of 32 [%100.00] (wr 1.682639 sec, rd 1.561880 sec)
+thread pair averages:
+  1 (wr 2.987680 sec, rd 2.861652 sec)
+  2 (wr 2.735562 sec, rd 2.615764 sec)
+  3 (wr 2.505951 sec, rd 2.392840 sec)
+  4 (wr 2.285858 sec, rd 2.181741 sec)
+  5 (wr 2.080623 sec, rd 1.981860 sec)
+  6 (wr 1.890865 sec, rd 1.799763 sec)
+  7 (wr 1.710607 sec, rd 1.614714 sec)
+  8 (wr 1.521599 sec, rd 1.432799 sec)
+  9 (wr 1.344112 sec, rd 1.253933 sec)
+  10 (wr 1.167470 sec, rd 1.091893 sec)
+  11 (wr 1.010997 sec, rd 0.935125 sec)
+  12 (wr 0.862420 sec, rd 0.780289 sec)
+  13 (wr 0.702573 sec, rd 0.616691 sec)
+  14 (wr 0.542758 sec, rd 0.454217 sec)
+  15 (wr 0.367294 sec, rd 0.286346 sec)
+  16 (wr 0.194691 sec, rd 0.102320 sec)
+total average: (wr 1.494441 sec, rd 1.400122 sec)
+benched 64.00 GiB worth of memory (682.66 MiB/s) in 95.917353 secs total
 ```
 
 ### 56 Thread Configurations
@@ -458,6 +505,82 @@ thread pair averages:
   64 (wr 0.206757 sec, rd 0.108640 sec)
 total average: (wr 6.808384 sec, rd 6.696644 sec)
 benched 256.00 GiB worth of memory (572.36 MiB/s) in 457.506831 secs total
+```
+
+#### Xeon E7-4830
+```
+discovered Intel(R) Xeon(R) CPU E7- 4830 @ 2.13GHz: 64 logical CPU(s), 32 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 64 thread pair(s) or 128 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 16] [15, 17] [16, 18] [17, 19] [18, 20] [19, 21] [20, 22] [21, 23] [22, 24] [23, 25] [24, 26] [25, 27] [26, 28] [27, 29] [28, 30] [29, 31] [30, 32] [31, 33] [32, 34] [33, 35] [34, 36] [35, 37] [36, 38] [37, 39] [38, 40] [39, 41] [40, 42] [41, 43] [42, 44] [43, 45] [44, 46] [45, 47] [46, 48] [47, 49] [48, 50] [49, 51] [50, 52] [51, 53] [52, 54] [53, 55] [54, 56] [55, 57] [56, 58] [57, 59] [58, 60] [59, 61] [60, 62] [61, 63] [62, 0] [63, 1] 
+trial 32 of 32 [%100.00] (wr 3.086694 sec, rd 3.035561 sec)
+thread pair averages:
+  1 (wr 5.847300 sec, rd 5.796392 sec)
+  2 (wr 5.752731 sec, rd 5.707243 sec)
+  3 (wr 5.662065 sec, rd 5.616072 sec)
+  4 (wr 5.566092 sec, rd 5.513297 sec)
+  5 (wr 5.462317 sec, rd 5.411158 sec)
+  6 (wr 5.356993 sec, rd 5.301049 sec)
+  7 (wr 5.249607 sec, rd 5.200304 sec)
+  8 (wr 5.153736 sec, rd 5.101995 sec)
+  9 (wr 5.049331 sec, rd 4.999260 sec)
+  10 (wr 4.949767 sec, rd 4.898881 sec)
+  11 (wr 4.847393 sec, rd 4.792652 sec)
+  12 (wr 4.742982 sec, rd 4.691786 sec)
+  13 (wr 4.643889 sec, rd 4.588940 sec)
+  14 (wr 4.537009 sec, rd 4.481914 sec)
+  15 (wr 4.428069 sec, rd 4.375354 sec)
+  16 (wr 4.315593 sec, rd 4.256122 sec)
+  17 (wr 4.196429 sec, rd 4.134273 sec)
+  18 (wr 4.072760 sec, rd 4.007763 sec)
+  19 (wr 3.942628 sec, rd 3.875766 sec)
+  20 (wr 3.811894 sec, rd 3.741761 sec)
+  21 (wr 3.672510 sec, rd 3.603020 sec)
+  22 (wr 3.540426 sec, rd 3.480910 sec)
+  23 (wr 3.419920 sec, rd 3.358738 sec)
+  24 (wr 3.293216 sec, rd 3.235517 sec)
+  25 (wr 3.177170 sec, rd 3.117184 sec)
+  26 (wr 3.059565 sec, rd 3.001806 sec)
+  27 (wr 2.945438 sec, rd 2.890612 sec)
+  28 (wr 2.832468 sec, rd 2.778210 sec)
+  29 (wr 2.722232 sec, rd 2.661921 sec)
+  30 (wr 2.602844 sec, rd 2.551239 sec)
+  31 (wr 2.497224 sec, rd 2.439991 sec)
+  32 (wr 2.380829 sec, rd 2.326858 sec)
+  33 (wr 2.275061 sec, rd 2.221941 sec)
+  34 (wr 2.171418 sec, rd 2.115612 sec)
+  35 (wr 2.063980 sec, rd 2.013531 sec)
+  36 (wr 1.968744 sec, rd 1.922478 sec)
+  37 (wr 1.888573 sec, rd 1.848487 sec)
+  38 (wr 1.807197 sec, rd 1.771384 sec)
+  39 (wr 1.727681 sec, rd 1.687657 sec)
+  40 (wr 1.647651 sec, rd 1.605835 sec)
+  41 (wr 1.571360 sec, rd 1.531390 sec)
+  42 (wr 1.491923 sec, rd 1.446591 sec)
+  43 (wr 1.407253 sec, rd 1.369061 sec)
+  44 (wr 1.326641 sec, rd 1.288176 sec)
+  45 (wr 1.248393 sec, rd 1.211295 sec)
+  46 (wr 1.175931 sec, rd 1.148982 sec)
+  47 (wr 1.123128 sec, rd 1.094720 sec)
+  48 (wr 1.063138 sec, rd 1.032190 sec)
+  49 (wr 1.004235 sec, rd 0.974416 sec)
+  50 (wr 0.946054 sec, rd 0.914361 sec)
+  51 (wr 0.883638 sec, rd 0.852239 sec)
+  52 (wr 0.820180 sec, rd 0.785301 sec)
+  53 (wr 0.755536 sec, rd 0.725438 sec)
+  54 (wr 0.695361 sec, rd 0.664083 sec)
+  55 (wr 0.635292 sec, rd 0.606028 sec)
+  56 (wr 0.576151 sec, rd 0.546959 sec)
+  57 (wr 0.516354 sec, rd 0.486138 sec)
+  58 (wr 0.454710 sec, rd 0.420553 sec)
+  59 (wr 0.385660 sec, rd 0.353287 sec)
+  60 (wr 0.320459 sec, rd 0.287894 sec)
+  61 (wr 0.256951 sec, rd 0.226716 sec)
+  62 (wr 0.197655 sec, rd 0.164426 sec)
+  63 (wr 0.133803 sec, rd 0.104321 sec)
+  64 (wr 0.074696 sec, rd 0.042441 sec)
+total average: (wr 2.630426 sec, rd 2.584405 sec)
+benched 256.00 GiB worth of memory (1.36 GiB/s) in 187.653462 secs total
 ```
 
 ### 256 Thread Configurations
