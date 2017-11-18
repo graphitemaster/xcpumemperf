@@ -83,7 +83,7 @@ benched 32.00 GiB worth of memory (327.67 MiB/s) in 99.197525 secs total
 discovered Intel(R) Core(TM) i7-4790K CPU @ 4.00GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
 running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
-thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1] 
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
 trial 32 of 32 [%100.00] (wr 1.927222 sec, rd 1.673217 sec)
 thread pair averages:
   1 (wr 2.765958 sec, rd 2.556524 sec)
@@ -103,7 +103,7 @@ benched 32.00 GiB worth of memory (368.17 MiB/s) in 88.740121 secs total
 discovered Intel(R) Core(TM) i7-4700MQ CPU @ 2.40GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
 running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
-thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1] 
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
 trial 32 of 32 [%100.00] (wr 2.855616 sec, rd 2.549412 sec)
 thread pair averages:
   1 (wr 3.483890 sec, rd 3.249389 sec)
@@ -116,6 +116,26 @@ thread pair averages:
   8 (wr 0.440386 sec, rd 0.240520 sec)
 total average: (wr 1.946450 sec, rd 1.732069 sec)
 benched 32.00 GiB worth of memory (292.57 MiB/s) in 111.749234 secs total
+```
+
+#### i7-4800MQ
+```
+discovered Intel(R) Core(TM) i7-4800MQ CPU @ 2.70GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
+trial 32 of 32 [%100.00] (wr 2.662296 sec, rd 2.386916 sec)
+thread pair averages:
+  1 (wr 3.648443 sec, rd 3.393188 sec)
+  2 (wr 3.167436 sec, rd 2.935026 sec)
+  3 (wr 2.709503 sec, rd 2.465347 sec)
+  4 (wr 2.224371 sec, rd 1.980122 sec)
+  5 (wr 1.746518 sec, rd 1.511296 sec)
+  6 (wr 1.275610 sec, rd 1.010919 sec)
+  7 (wr 0.803538 sec, rd 0.613126 sec)
+  8 (wr 0.406616 sec, rd 0.222207 sec)
+total average: (wr 1.997754 sec, rd 1.766404 sec)
+benched 32.00 GiB worth of memory (277.69 MiB/s) in 117.104607 secs total
 ```
 
 #### i7-4710HQ
