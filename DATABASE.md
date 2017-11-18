@@ -26,7 +26,7 @@ logical CPU which will be used for reading while the second number is
 the logical CPU which will be used for writing. These are staggered
 because we want reads and writes for a mapping to happen across CPUs.
 This staggering is controlled by the amount of threads per core. You
-can disable staggering with -F or --force-same-cpu.
+can disable staggering with `-F` or `--force-same-cpu.`
 
 The rest of the output is a list of running average seconds on each
 thread pair that carried out the trials. It's a running average so
@@ -137,6 +137,26 @@ thread pair averages:
   8 (wr 0.282312 sec, rd 0.134656 sec)
 total average: (wr 1.465362 sec, rd 1.294713 sec)
 benched 32.00 GiB worth of memory (381.02 MiB/s) in 85.755991 secs total
+```
+
+#### i7 860
+```
+discovered Intel(R) Core(TM) i7 CPU 860 @ 2.80GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
+trial 32 of 32 [%100.00] (wr 2.340896 sec, rd 2.094335 sec)
+thread pair averages:
+  1 (wr 3.027625 sec, rd 2.806598 sec)
+  2 (wr 2.607912 sec, rd 2.399488 sec)
+  3 (wr 2.225947 sec, rd 2.068080 sec)
+  4 (wr 1.896345 sec, rd 1.697492 sec)
+  5 (wr 1.493139 sec, rd 1.312024 sec)
+  6 (wr 1.123178 sec, rd 0.906370 sec)
+  7 (wr 0.728655 sec, rd 0.579566 sec)
+  8 (wr 0.362162 sec, rd 0.165358 sec)
+total average: (wr 1.683121 sec, rd 1.491872 sec)
+benched 32.00 GiB worth of memory (334.36 MiB/s) in 97.245199 secs total
 ```
 
 ### 12 Thread Configurations

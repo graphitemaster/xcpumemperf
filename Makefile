@@ -3,7 +3,7 @@ LIBS = -lm -lpthread -lrt
 CC = gcc
 CFLAGS = -Wall -Wextra -Wno-format-truncation -O2
 
-.PHONY: default all clean
+.PHONY: default all clean plot
 
 default: $(TARGET)
 all: default
@@ -18,6 +18,9 @@ HEADERS = $(wildcard *.h)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) -Wall $(LIBS) -o $@
+
+plot:
+	gnuplot plot.gp
 
 clean:
 	-rm -f *.o
