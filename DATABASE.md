@@ -138,6 +138,26 @@ total average: (wr 1.997754 sec, rd 1.766404 sec)
 benched 32.00 GiB worth of memory (277.69 MiB/s) in 117.104607 secs total
 ```
 
+#### i7-4720MQ
+```
+discovered Intel(R) Core(TM) i7-4702MQ CPU @ 2.20GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 8 thread pair(s) or 16 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 0] [7, 1]
+trial 32 of 32 [%100.00] (wr 2.733916 sec, rd 2.436790 sec)
+thread pair averages:
+  1 (wr 3.743545 sec, rd 3.474793 sec)
+  2 (wr 3.219560 sec, rd 3.001925 sec)
+  3 (wr 2.765952 sec, rd 2.529974 sec)
+  4 (wr 2.282410 sec, rd 2.048847 sec)
+  5 (wr 1.821917 sec, rd 1.577716 sec)
+  6 (wr 1.343491 sec, rd 1.115553 sec)
+  7 (wr 0.880156 sec, rd 0.664208 sec)
+  8 (wr 0.461330 sec, rd 0.219415 sec)
+total average: (wr 2.064795 sec, rd 1.829054 sec)
+benched 32.00 GiB worth of memory (270.80 MiB/s) in 120.089799 secs total
+```
+
 #### i7-4710HQ
 ```
 discovered Intel(R) Core(TM) i7-4710HQ CPU @ 2.50GHz: 8 logical CPU(s), 4 physical, 2 thread(s) per core
