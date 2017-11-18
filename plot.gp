@@ -15,7 +15,9 @@ set ytics 0,100
 set key left top
 set title "Results"
 
-plot "results/data.8"   using 1:2   title "8 Threads"   with linespoints pt 5 lc rgb 'red', \
+plot "results/data.4"   using 1:2   title "4 Threads"   with linespoints pt 5 lc rgb 'black', \
+     ""                 using 1:2:3 title ""            with labels right, \
+     "results/data.8"   using 1:2   title "8 Threads"   with linespoints pt 5 lc rgb 'red', \
      ""                 using 1:2:3 title ""            with labels right, \
      "results/data.12"  using 1:2   title "12 Threads"  with linespoints pt 5 lc rgb 'green', \
      ""                 using 1:2:3 title ""            with labels right, \

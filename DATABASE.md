@@ -57,6 +57,24 @@ You can contribute your timings here by submitting a pull request. The
 more configurations we have the better it'll be to provide some useful
 graphs in the future.
 
+### 4 Thread Configurations
+
+#### i5-2500
+```
+discovered Intel(R) Core(TM) i5-2500 CPU @ 3.30GHz: 4 logical CPU(s), 4 physical, 1 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 4 thread pair(s) or 8 thread(s) total per trial run
+thread cpu pairs: [0, 1] [1, 2] [2, 3] [3, 0]
+trial 32 of 32 [%100.00] (wr 2.234547 sec, rd 1.833982 sec)
+thread pair averages:
+  1 (wr 1.621019 sec, rd 1.396586 sec)
+  2 (wr 1.199550 sec, rd 0.987120 sec)
+  3 (wr 0.757112 sec, rd 0.555062 sec)
+  4 (wr 0.366981 sec, rd 0.193971 sec)
+total average: (wr 0.986165 sec, rd 0.783185 sec)
+benched 16.00 GiB worth of memory (309.13 MiB/s) in 52.042662 secs total
+```
+
 ### 8 Thread Configurations
 
 #### i7-4790k
