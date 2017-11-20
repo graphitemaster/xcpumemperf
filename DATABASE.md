@@ -331,12 +331,40 @@ total average: (wr 3.392124 sec, rd 3.191888 sec)
 benched 64.00 GiB worth of memory (318.13 MiB/s) in 205.969100 secs total
 ```
 
+#### Ryzen 1800x
+```
+discovered AMD Ryzen 7 1800X Eight-Core Processor: 16 logical CPU(s), 8 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 16 thread pair(s) or 32 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1]
+trial 32 of 32 [%100.00] (wr 3.065228 sec, rd 2.848212 sec)
+thread pair averages:
+  1 (wr 5.310936 sec, rd 5.111738 sec)
+  2 (wr 4.932744 sec, rd 4.742017 sec)
+  3 (wr 4.567351 sec, rd 4.388152 sec)
+  4 (wr 4.228527 sec, rd 4.056428 sec)
+  5 (wr 3.885407 sec, rd 3.696289 sec)
+  6 (wr 3.532067 sec, rd 3.370483 sec)
+  7 (wr 3.181150 sec, rd 3.014855 sec)
+  8 (wr 2.858295 sec, rd 2.660739 sec)
+  9 (wr 2.476888 sec, rd 2.296587 sec)
+  10 (wr 2.130544 sec, rd 1.974210 sec)
+  11 (wr 1.817833 sec, rd 1.683757 sec)
+  12 (wr 1.513205 sec, rd 1.361369 sec)
+  13 (wr 1.204070 sec, rd 1.049316 sec)
+  14 (wr 0.894551 sec, rd 0.740290 sec)
+  15 (wr 0.593564 sec, rd 0.444251 sec)
+  16 (wr 0.299039 sec, rd 0.148602 sec)
+total average: (wr 2.714136 sec, rd 2.546193 sec)
+benched 64.00 GiB worth of memory (383.25 MiB/s) in 170.163139 secs total
+```
+
 #### Xeon X5672
 ```
 discovered Intel(R) Xeon(R) CPU X5672 @ 3.20GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
 running 32 trial(s) on a space of 128.00 MiB with 16 thread pair(s) or 32 thread(s) total per trial run
-thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1] 
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1]
 trial 32 of 32 [%100.00] (wr 1.682639 sec, rd 1.561880 sec)
 thread pair averages:
   1 (wr 2.987680 sec, rd 2.861652 sec)
@@ -512,7 +540,7 @@ benched 256.00 GiB worth of memory (572.36 MiB/s) in 457.506831 secs total
 discovered Intel(R) Xeon(R) CPU E7- 4830 @ 2.13GHz: 64 logical CPU(s), 32 physical, 2 thread(s) per core
 measuring memory perf across CPU(s) with explicit memory mappings
 running 32 trial(s) on a space of 128.00 MiB with 64 thread pair(s) or 128 thread(s) total per trial run
-thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 16] [15, 17] [16, 18] [17, 19] [18, 20] [19, 21] [20, 22] [21, 23] [22, 24] [23, 25] [24, 26] [25, 27] [26, 28] [27, 29] [28, 30] [29, 31] [30, 32] [31, 33] [32, 34] [33, 35] [34, 36] [35, 37] [36, 38] [37, 39] [38, 40] [39, 41] [40, 42] [41, 43] [42, 44] [43, 45] [44, 46] [45, 47] [46, 48] [47, 49] [48, 50] [49, 51] [50, 52] [51, 53] [52, 54] [53, 55] [54, 56] [55, 57] [56, 58] [57, 59] [58, 60] [59, 61] [60, 62] [61, 63] [62, 0] [63, 1] 
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 16] [15, 17] [16, 18] [17, 19] [18, 20] [19, 21] [20, 22] [21, 23] [22, 24] [23, 25] [24, 26] [25, 27] [26, 28] [27, 29] [28, 30] [29, 31] [30, 32] [31, 33] [32, 34] [33, 35] [34, 36] [35, 37] [36, 38] [37, 39] [38, 40] [39, 41] [40, 42] [41, 43] [42, 44] [43, 45] [44, 46] [45, 47] [46, 48] [47, 49] [48, 50] [49, 51] [50, 52] [51, 53] [52, 54] [53, 55] [54, 56] [55, 57] [56, 58] [57, 59] [58, 60] [59, 61] [60, 62] [61, 63] [62, 0] [63, 1]
 trial 32 of 32 [%100.00] (wr 3.086694 sec, rd 3.035561 sec)
 thread pair averages:
   1 (wr 5.847300 sec, rd 5.796392 sec)
