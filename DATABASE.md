@@ -359,6 +359,34 @@ total average: (wr 2.714136 sec, rd 2.546193 sec)
 benched 64.00 GiB worth of memory (383.25 MiB/s) in 170.163139 secs total
 ```
 
+#### Xeon X5672
+```
+discovered Intel(R) Xeon(R) CPU X5672 @ 3.20GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 16 thread pair(s) or 32 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1]
+trial 32 of 32 [%100.00] (wr 1.682639 sec, rd 1.561880 sec)
+thread pair averages:
+  1 (wr 2.987680 sec, rd 2.861652 sec)
+  2 (wr 2.735562 sec, rd 2.615764 sec)
+  3 (wr 2.505951 sec, rd 2.392840 sec)
+  4 (wr 2.285858 sec, rd 2.181741 sec)
+  5 (wr 2.080623 sec, rd 1.981860 sec)
+  6 (wr 1.890865 sec, rd 1.799763 sec)
+  7 (wr 1.710607 sec, rd 1.614714 sec)
+  8 (wr 1.521599 sec, rd 1.432799 sec)
+  9 (wr 1.344112 sec, rd 1.253933 sec)
+  10 (wr 1.167470 sec, rd 1.091893 sec)
+  11 (wr 1.010997 sec, rd 0.935125 sec)
+  12 (wr 0.862420 sec, rd 0.780289 sec)
+  13 (wr 0.702573 sec, rd 0.616691 sec)
+  14 (wr 0.542758 sec, rd 0.454217 sec)
+  15 (wr 0.367294 sec, rd 0.286346 sec)
+  16 (wr 0.194691 sec, rd 0.102320 sec)
+total average: (wr 1.494441 sec, rd 1.400122 sec)
+benched 64.00 GiB worth of memory (682.66 MiB/s) in 95.917353 secs total
+```
+
 #### 32 Thread Configurations
 ```
 discovered AMD Ryzen Threadripper 1950X 16-Core Processor: 32 logical CPU(s), 16 physical, 2 thread(s) per core
@@ -401,34 +429,6 @@ thread pair averages:
   32 (wr 0.208470 sec, rd 0.115934 sec)
 total average: (wr 3.436175 sec, rd 3.330252 sec)
 benched 128.00 GiB worth of memory (609.63 MiB/s) in 214.818738 secs total
-```
-
-#### Xeon X5672
-```
-discovered Intel(R) Xeon(R) CPU X5672 @ 3.20GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
-measuring memory perf across CPU(s) with explicit memory mappings
-running 32 trial(s) on a space of 128.00 MiB with 16 thread pair(s) or 32 thread(s) total per trial run
-thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 0] [15, 1]
-trial 32 of 32 [%100.00] (wr 1.682639 sec, rd 1.561880 sec)
-thread pair averages:
-  1 (wr 2.987680 sec, rd 2.861652 sec)
-  2 (wr 2.735562 sec, rd 2.615764 sec)
-  3 (wr 2.505951 sec, rd 2.392840 sec)
-  4 (wr 2.285858 sec, rd 2.181741 sec)
-  5 (wr 2.080623 sec, rd 1.981860 sec)
-  6 (wr 1.890865 sec, rd 1.799763 sec)
-  7 (wr 1.710607 sec, rd 1.614714 sec)
-  8 (wr 1.521599 sec, rd 1.432799 sec)
-  9 (wr 1.344112 sec, rd 1.253933 sec)
-  10 (wr 1.167470 sec, rd 1.091893 sec)
-  11 (wr 1.010997 sec, rd 0.935125 sec)
-  12 (wr 0.862420 sec, rd 0.780289 sec)
-  13 (wr 0.702573 sec, rd 0.616691 sec)
-  14 (wr 0.542758 sec, rd 0.454217 sec)
-  15 (wr 0.367294 sec, rd 0.286346 sec)
-  16 (wr 0.194691 sec, rd 0.102320 sec)
-total average: (wr 1.494441 sec, rd 1.400122 sec)
-benched 64.00 GiB worth of memory (682.66 MiB/s) in 95.917353 secs total
 ```
 
 ### 56 Thread Configurations
