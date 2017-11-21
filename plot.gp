@@ -23,6 +23,8 @@ plot "results/data.4"   using 1:2   title "4 Threads"   with linespoints pt 5 lc
      ""                 using 1:2:3 title ""            with labels right, \
      "results/data.16"  using 1:2   title "16 Threads"  with linespoints pt 5 lc rgb 'blue', \
      ""                 using 1:2:3 title ""            with labels right, \
+     "results/data.32"  using 1:2   title "32 Threads"  with linespoints pt 5 lc rgb 'pink', \
+     ""                 using 1:2:3 title ""            with labels right, \
      "results/data.56"  using 1:2   title "56 Threads"  with linespoints pt 5 lc rgb 'magenta', \
      ""                 using 1:2:3 title ""            with labels right, \
      "results/data.64"  using 1:2   title "64 Threads"  with linespoints pt 5 lc rgb 'yellow', \

@@ -359,6 +359,50 @@ total average: (wr 2.714136 sec, rd 2.546193 sec)
 benched 64.00 GiB worth of memory (383.25 MiB/s) in 170.163139 secs total
 ```
 
+#### 32 Thread Configurations
+```
+discovered AMD Ryzen Threadripper 1950X 16-Core Processor: 32 logical CPU(s), 16 physical, 2 thread(s) per core
+measuring memory perf across CPU(s) with explicit memory mappings
+running 32 trial(s) on a space of 128.00 MiB with 32 thread pair(s) or 64 thread(s) total per trial run
+thread cpu pairs: [0, 2] [1, 3] [2, 4] [3, 5] [4, 6] [5, 7] [6, 8] [7, 9] [8, 10] [9, 11] [10, 12] [11, 13] [12, 14] [13, 15] [14, 16] [15, 17] [16, 18] [17, 19] [18, 20] [19, 21] [20, 22] [21, 23] [22, 24] [23, 25] [24, 26] [25, 27] [26, 28] [27, 29] [28, 30] [29, 31] [30, 0] [31, 1]
+trial 32 of 32 [%100.00] (wr 4.125700 sec, rd 3.999075 sec)
+thread pair averages:
+  1 (wr 6.693974 sec, rd 6.568950 sec)
+  2 (wr 6.455986 sec, rd 6.340916 sec)
+  3 (wr 6.241571 sec, rd 6.136103 sec)
+  4 (wr 6.045558 sec, rd 5.942668 sec)
+  5 (wr 5.832830 sec, rd 5.740221 sec)
+  6 (wr 5.649731 sec, rd 5.545497 sec)
+  7 (wr 5.452671 sec, rd 5.352482 sec)
+  8 (wr 5.249058 sec, rd 5.148453 sec)
+  9 (wr 5.038689 sec, rd 4.925714 sec)
+  10 (wr 4.821746 sec, rd 4.722724 sec)
+  11 (wr 4.604839 sec, rd 4.501247 sec)
+  12 (wr 4.397742 sec, rd 4.290313 sec)
+  13 (wr 4.182569 sec, rd 4.077448 sec)
+  14 (wr 3.967493 sec, rd 3.856537 sec)
+  15 (wr 3.751743 sec, rd 3.646957 sec)
+  16 (wr 3.542825 sec, rd 3.424643 sec)
+  17 (wr 3.326784 sec, rd 3.219773 sec)
+  18 (wr 3.122252 sec, rd 3.017287 sec)
+  19 (wr 2.911537 sec, rd 2.786187 sec)
+  20 (wr 2.686772 sec, rd 2.583465 sec)
+  21 (wr 2.470895 sec, rd 2.374049 sec)
+  22 (wr 2.262232 sec, rd 2.156925 sec)
+  23 (wr 2.058933 sec, rd 1.943971 sec)
+  24 (wr 1.836684 sec, rd 1.727925 sec)
+  25 (wr 1.616401 sec, rd 1.517141 sec)
+  26 (wr 1.432409 sec, rd 1.338292 sec)
+  27 (wr 1.234046 sec, rd 1.127777 sec)
+  28 (wr 1.020139 sec, rd 0.916708 sec)
+  29 (wr 0.819720 sec, rd 0.707664 sec)
+  30 (wr 0.613211 sec, rd 0.505937 sec)
+  31 (wr 0.408083 sec, rd 0.308149 sec)
+  32 (wr 0.208470 sec, rd 0.115934 sec)
+total average: (wr 3.436175 sec, rd 3.330252 sec)
+benched 128.00 GiB worth of memory (609.63 MiB/s) in 214.818738 secs total
+```
+
 #### Xeon X5672
 ```
 discovered Intel(R) Xeon(R) CPU X5672 @ 3.20GHz: 16 logical CPU(s), 8 physical, 2 thread(s) per core
